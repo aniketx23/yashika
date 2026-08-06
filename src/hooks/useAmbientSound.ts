@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import track from '../assets/never-stop-trying.mp3';
+import loop from '../assets/portal-loop.mp3';
 
 declare global {
   interface Window {
@@ -8,120 +8,170 @@ declare global {
   }
 }
 
-/** Matches the page's motion timings: slow swell in, quick duck out. */
-const FADE_IN = 1.8;
+const FADE_IN = 1.4;
 const FADE_OUT = 0.5;
-/** Sits under the page rather than on top of it. */
-const LEVEL = 0.7;
+/** Slider moves ride a short ramp so dragging doesn't zipper. */
+const SETTLE = 0.08;
+export const DEFAULT_VOLUME = 0.7;
 /** `exponentialRampToValueAtTime` cannot touch zero. */
 const SILENT = 0.0001;
+/** Anything quieter than this counts as silence when finding the loop points. */
+const FLOOR = 0.0025;
 
 interface Rig {
-  el: HTMLAudioElement;
-  ctx: AudioContext | null;
-  gain: GainNode | null;
+  ctx: AudioContext;
+  gain: GainNode;
+  buffer: AudioBuffer | null;
+  source: AudioBufferSourceNode | null;
+  start: number;
+  end: number;
 }
 
 export interface AmbientSound {
   on: boolean;
   toggle(): void;
+  /** 0–1. */
+  volume: number;
+  setVolume(v: number): void;
 }
 
 /**
- * The soundtrack rides a Web Audio `GainNode`, not `element.volume` — iOS makes
- * media-element volume read-only, so a volume fade there would simply snap the
- * song on at full blast. Falls back to `volume` if the graph can't be built.
+ * Find the first and last audible samples.
+ *
+ * MP3 encoding pads both ends of the file, and looping across that padding
+ * puts an audible gap in every lap — brutal on a 14-second bed. Setting
+ * `loopStart`/`loopEnd` to the real audio makes the seam sample-accurate.
  */
-function fade(rig: Rig, up: boolean): void {
-  const { ctx, gain } = rig;
-  if (ctx && gain) {
-    const at = ctx.currentTime;
-    gain.gain.cancelScheduledValues(at);
-    gain.gain.setValueAtTime(Math.max(gain.gain.value, SILENT), at);
-    gain.gain.exponentialRampToValueAtTime(up ? LEVEL : SILENT, at + (up ? FADE_IN : FADE_OUT));
-    return;
-  }
-  rig.el.volume = up ? LEVEL : 0;
+function findLoop(buffer: AudioBuffer): { start: number; end: number } {
+  const channels = Array.from({ length: buffer.numberOfChannels }, (_, i) =>
+    buffer.getChannelData(i),
+  );
+  const audible = (i: number) => channels.some((c) => Math.abs(c[i] ?? 0) > FLOOR);
+
+  let first = 0;
+  while (first < buffer.length && !audible(first)) first++;
+  let last = buffer.length - 1;
+  while (last > first && !audible(last)) last--;
+
+  return { start: first / buffer.sampleRate, end: (last + 1) / buffer.sampleRate };
+}
+
+function ramp(rig: Rig, to: number, seconds: number): void {
+  const at = rig.ctx.currentTime;
+  rig.gain.gain.cancelScheduledValues(at);
+  rig.gain.gain.setValueAtTime(Math.max(rig.gain.gain.value, SILENT), at);
+  rig.gain.gain.exponentialRampToValueAtTime(Math.max(to, SILENT), at + seconds);
 }
 
 /**
- * Muted by default and lazily loaded: the audio file is not fetched until the
- * guest actually asks for sound, so nobody pays ~3.9 MB of mobile data for a
- * soundtrack they never turned on.
+ * Muted by default, lazily fetched: the clip is not downloaded until the guest
+ * asks for sound, so nobody pays for a soundtrack they never turned on.
+ *
+ * Played through an `AudioBufferSourceNode` rather than an `<audio>` element —
+ * that is what buys a gapless loop, and it keeps gain on a `GainNode`, which
+ * matters because iOS makes media-element volume read-only.
  */
 export function useAmbientSound(): AmbientSound {
   const [on, setOn] = useState(false);
+  const [volume, setVolumeState] = useState(DEFAULT_VOLUME);
+
   const rigRef = useRef<Rig | null>(null);
   const stopRef = useRef(0);
+  const busyRef = useRef(false);
   const onRef = useRef(on);
   onRef.current = on;
+  const volumeRef = useRef(volume);
+  volumeRef.current = volume;
 
   useEffect(
     () => () => {
       const rig = rigRef.current;
       if (!rig) return;
       window.clearTimeout(stopRef.current);
-      rig.el.pause();
-      rig.el.removeAttribute('src');
-      rig.el.remove();
-      void rig.ctx?.close();
+      try {
+        rig.source?.stop();
+      } catch {
+        /* already stopped */
+      }
+      void rig.ctx.close();
       rigRef.current = null;
     },
     [],
   );
 
   const toggle = useCallback(() => {
-    let rig = rigRef.current;
+    if (busyRef.current) return;
+    busyRef.current = true;
 
-    if (!rig) {
-      const el = document.createElement('audio');
-      // preload before src: setting src first would start a fetch immediately.
-      el.preload = 'none';
-      el.loop = true;
-      el.src = track;
-      /* Attached, not detached: iOS is unreliable about playing media elements
-         that were never inserted into the document. */
-      el.hidden = true;
-      document.body.append(el);
-
-      let ctx: AudioContext | null = null;
-      let gain: GainNode | null = null;
+    void (async () => {
       try {
-        const Ctor = window.AudioContext ?? window.webkitAudioContext;
-        if (Ctor) {
-          ctx = new Ctor();
-          gain = ctx.createGain();
+        let rig = rigRef.current;
+        if (!rig) {
+          const Ctor = window.AudioContext ?? window.webkitAudioContext;
+          if (!Ctor) return;
+          const ctx = new Ctor();
+          const gain = ctx.createGain();
           gain.gain.value = SILENT;
-          ctx.createMediaElementSource(el).connect(gain);
           gain.connect(ctx.destination);
+          rig = { ctx, gain, buffer: null, source: null, start: 0, end: 0 };
+          rigRef.current = rig;
         }
-      } catch {
-        ctx = null;
-        gain = null;
+
+        if (onRef.current) {
+          window.clearTimeout(stopRef.current);
+          ramp(rig, 0, FADE_OUT);
+          const dying = rig.source;
+          rig.source = null;
+          // Let it fade before killing the node, then release the decoder.
+          stopRef.current = window.setTimeout(() => {
+            try {
+              dying?.stop();
+            } catch {
+              /* already stopped */
+            }
+          }, FADE_OUT * 1000 + 80);
+          setOn(false);
+          return;
+        }
+
+        await rig.ctx.resume();
+        if (!rig.buffer) {
+          const bytes = await (await fetch(loop)).arrayBuffer();
+          const buffer = await rig.ctx.decodeAudioData(bytes);
+          // The component may have unmounted across those awaits.
+          if (rigRef.current !== rig) return;
+          const points = findLoop(buffer);
+          rig.buffer = buffer;
+          rig.start = points.start;
+          rig.end = points.end;
+        }
+
+        window.clearTimeout(stopRef.current);
+        if (!rig.source) {
+          const source = rig.ctx.createBufferSource();
+          source.buffer = rig.buffer;
+          source.loop = true;
+          source.loopStart = rig.start;
+          source.loopEnd = rig.end;
+          source.connect(rig.gain);
+          source.start(0, rig.start);
+          rig.source = source;
+        }
+        ramp(rig, volumeRef.current, FADE_IN);
+        setOn(true);
+      } finally {
+        busyRef.current = false;
       }
-      if (!gain) el.volume = 0;
-
-      rig = { el, ctx, gain };
-      rigRef.current = rig;
-    }
-
-    const settled = rig;
-    const next = !onRef.current;
-    window.clearTimeout(stopRef.current);
-
-    if (next) {
-      void settled.ctx?.resume();
-      void settled.el.play().catch(() => {
-        /* blocked before a gesture lands — the next tap will take */
-      });
-      fade(settled, true);
-    } else {
-      fade(settled, false);
-      // Free the stream once it is inaudible, not the instant it is toggled.
-      stopRef.current = window.setTimeout(() => settled.el.pause(), FADE_OUT * 1000 + 80);
-    }
-    setOn(next);
+    })();
   }, []);
 
-  return { on, toggle };
+  const setVolume = useCallback((next: number) => {
+    const clamped = Math.min(1, Math.max(0, next));
+    volumeRef.current = clamped;
+    setVolumeState(clamped);
+    const rig = rigRef.current;
+    if (rig && onRef.current) ramp(rig, clamped, SETTLE);
+  }, []);
+
+  return { on, toggle, volume, setVolume };
 }

@@ -54,10 +54,6 @@ export default function Seal({ sectionRef, revealed }: Props) {
             WhatsApp {INVITE.whatsappDisplay}
           </a>
         </p>
-
-        <p aria-hidden="true" className={styles.tokchi}>
-          EST. 20·10 &nbsp;·&nbsp; ✦ TOKCHI WAS HERE
-        </p>
       </motion.div>
     </section>
   );

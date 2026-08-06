@@ -1,0 +1,124 @@
+.opening {
+  /* svh matters — the iOS URL bar eats vh. */
+  min-height: 100svh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 88px var(--gutter);
+  box-sizing: border-box;
+}
+
+.mahaya {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(5rem, 27vw, 21rem);
+  letter-spacing: 0.02em;
+  color: var(--sirius);
+  opacity: 0.05;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+
+/* Holds the hero as one plate so it can recede together on scroll. */
+.plate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+/* The reveal wrapper carries opacity so the child is free to breathe. */
+.layer {
+  position: relative;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: clamp(8px, 2.4vw, 10px);
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.name {
+  position: relative;
+  margin: 26px 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(3.2rem, 14.5vw, 8.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--sirius);
+}
+
+.dividerRow {
+  position: relative;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rule {
+  display: block;
+  width: 44px;
+  height: 1px;
+}
+.ruleLeft {
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.ruleRight {
+  background: linear-gradient(270deg, transparent, var(--gold));
+}
+
+.turning {
+  font-family: var(--mono);
+  font-size: clamp(0.7rem, 3vw, 0.9rem);
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: var(--sirius-dim);
+}
+
+.age {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(5rem, 22vw, 11rem);
+  line-height: 1;
+  color: var(--gold);
+}
+
+.when {
+  position: relative;
+  margin: 30px 0 0;
+  font-family: var(--mono);
+  font-size: clamp(0.62rem, 2.8vw, 0.8rem);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  color: var(--sirius-dim);
+}
+
+.scrollCue {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  color: var(--gold);
+  font-size: 15px;
+}
+
+.chevron {
+  display: inline-block;
+}

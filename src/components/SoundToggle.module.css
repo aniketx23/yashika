@@ -1,0 +1,24 @@
+.toggle {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 95;
+  background: rgba(23, 19, 57, 0.72);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(240, 180, 41, 0.28);
+  border-radius: var(--r-pill);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  padding: 13px 15px;
+  min-height: 44px;
+  /* Without this the label wraps and breaks the pill. */
+  white-space: nowrap;
+  line-height: 1;
+  cursor: pointer;
+}
+.toggle:hover {
+  border-color: rgba(240, 180, 41, 0.7);
+  color: var(--flare);
+}

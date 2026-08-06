@@ -1,0 +1,60 @@
+.alignment {
+  padding: 74px var(--gutter) 76px;
+}
+
+.intro {
+  margin-bottom: 44px;
+}
+
+.copy {
+  margin: 20px 0 0;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--sirius-dim);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+.copy strong {
+  color: var(--sirius);
+  font-weight: 600;
+}
+
+.rows {
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(240, 180, 41, 0.18);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--sirius-dim);
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.value {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 4.6vw, 1.6rem);
+  line-height: 1.25;
+  color: var(--sirius);
+  flex: 1;
+  min-width: 0;
+}
+
+.obsLog {
+  margin: 26px 0 0;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  color: var(--sirius-dim);
+  opacity: 0.2;
+}

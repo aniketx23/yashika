@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>The Lion's Portal · 08.08.26</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B0A1F">
+  <meta property="og:title" content="You're summoned · 08.08.26">
+  <meta property="og:description" content="The Lion's Portal opens for Yashika's 23rd. Draw the infinity.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&family=Manrope:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html,body{margin:0;padding:0;background:#0B0A1F;color:#EDEAFF;font-family:Manrope,sans-serif;overflow-x:hidden;overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent}
+    a{color:#F0B429}a:hover{color:#FF3D71}
+    ::selection{background:rgba(240,180,41,.35);color:#EDEAFF}
+    *:focus-visible{outline:2px solid #F0B429;outline-offset:3px;border-radius:4px}
+    input,textarea,button{font-family:inherit}
+    @keyframes chev{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(7px);opacity:1}}
+    @keyframes colonPulse{0%,100%{opacity:.15}50%{opacity:.65}}
+    @keyframes breathe{0%,100%{opacity:.5}50%{opacity:1}}
+    @keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes floatSlow{0%,100%{transform:translate(-50%,-52%)}50%{transform:translate(-50%,-48%)}}
+    @keyframes glowText{0%,100%{text-shadow:0 0 34px rgba(240,180,41,.35)}50%{text-shadow:0 0 62px rgba(240,180,41,.75)}}
+    @keyframes headPulse{0%,100%{r:8;opacity:.9}50%{r:12;opacity:1}}
+    @keyframes ringDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+    @keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    @media (prefers-reduced-motion: reduce){*{animation:none !important}}
+  </style>
+</helmet>
+
+<div data-screen-label="Lion's Portal Invite" style="position:relative;background:#0B0A1F;min-height:100vh">
+
+  <canvas ref="{{ bgRef }}" aria-hidden="true" style="position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none"></canvas>
+
+  <div aria-hidden="true" style="position:fixed;left:0;top:0;bottom:0;width:2px;z-index:40;background:rgba(237,234,255,.06)">
+    <div ref="{{ railRef }}" style="width:100%;height:100%;background:linear-gradient(180deg,#F0B429,#B87914);transform:scaleY(0);transform-origin:top"></div>
+  </div>
+
+  <button onClick="{{ onToggleSound }}" aria-label="Toggle ambient sound" style="position:fixed;top:14px;right:14px;z-index:95;background:rgba(23,19,57,.72);backdrop-filter:blur(10px);border:1px solid rgba(240,180,41,.28);color:#F0B429;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.24em;padding:13px 15px;min-height:44px;border-radius:999px;white-space:nowrap;line-height:1;cursor:pointer" style-hover="border-color:rgba(240,180,41,.7);color:#FF3D71">{{ soundLabel }}</button>
+
+  <sc-if value="{{ showGate }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="00 The Gate" style="position:fixed;inset:0;z-index:90">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:50.2%;background:linear-gradient(115deg,#0B0A1F 22%,#171339 100%);border-right:1px solid rgba(240,180,41,.28);transform:translateX({{ gateLX }});transition:transform 1.6s cubic-bezier(0.87,0,0.13,1)"></div>
+      <div style="position:absolute;right:0;top:0;bottom:0;width:50.2%;background:linear-gradient(245deg,#0B0A1F 22%,#171339 100%);border-left:1px solid rgba(240,180,41,.28);transform:translateX({{ gateRX }});transition:transform 1.6s cubic-bezier(0.87,0,0.13,1)"></div>
+
+      <div ref="{{ infRef }}" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2.4vh,26px);padding:24px 18px 64px;touch-action:none;cursor:crosshair;opacity:{{ gateUIO }};transition:opacity .7s ease">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5em;color:#9C97C4;text-indent:.5em;white-space:nowrap">08 · 08 · 26</div>
+        <div style="font-family:'Bodoni Moda',serif;font-size:clamp(1.45rem,6.4vw,2.4rem);line-height:1.12;text-align:center;color:#EDEAFF;max-width:16ch;margin:0">Draw the infinity</div>
+        <svg viewBox="0 0 300 190" style="width:min(90vw,460px);max-height:42vh;height:auto;overflow:visible" aria-hidden="true">
+          <ellipse cx="150" cy="95" rx="128" ry="66" fill="none" stroke="rgba(240,180,41,.08)" stroke-dasharray="2 7"></ellipse>
+          <path ref="{{ infPathRef }}" d="M150,95 C112,50 56,52 56,95 C56,138 112,140 150,95 C188,50 244,52 244,95 C244,138 188,140 150,95" fill="none" stroke="rgba(237,234,255,.13)" stroke-width="16" stroke-linecap="round"></path>
+          <path d="M150,95 C112,50 56,52 56,95 C56,138 112,140 150,95 C188,50 244,52 244,95 C244,138 188,140 150,95" fill="none" stroke="rgba(240,180,41,.16)" stroke-width="1" stroke-dasharray="3 6"></path>
+          <path ref="{{ infFillRef }}" d="M150,95 C112,50 56,52 56,95 C56,138 112,140 150,95 C188,50 244,52 244,95 C244,138 188,140 150,95" fill="none" stroke="#F0B429" stroke-width="9" stroke-linecap="round" style="filter:drop-shadow(0 0 12px rgba(240,180,41,.9))"></path>
+          <circle ref="{{ infHeadRef }}" cx="150" cy="95" r="9" fill="#FFE9B0" style="filter:drop-shadow(0 0 16px rgba(255,233,176,1));animation:headPulse 1.6s ease-in-out infinite"></circle>
+        </svg>
+        <div ref="{{ infHintRef }}" style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.28em;color:#F0B429;text-align:center;text-indent:.28em">START AT THE LIGHT · ONE STROKE</div>
+        <div style="font-size:12.5px;color:#9C97C4;text-align:center;max-width:30ch;opacity:.8">eight on its side is infinity — trace it and the portal knows you</div>
+      </div>
+
+      <sc-if value="{{ showFallback }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ onFallback }}" style="position:absolute;left:50%;bottom:4.5%;transform:translateX(-50%);background:none;border:1px solid rgba(240,180,41,.35);color:#9C97C4;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.22em;padding:10px 18px;border-radius:999px;cursor:pointer;z-index:2" style-hover="color:#F0B429;border-color:#F0B429">TRACE IT FOR ME ✦</button>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <div style="position:relative;z-index:1">
+
+    <section data-screen-label="01 The Opening" style="min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:88px 22px 88px;box-sizing:border-box">
+      <div ref="{{ mahayaRef }}" aria-hidden="true" style="position:absolute;left:50%;top:50%;font-family:'Bodoni Moda',serif;font-weight:500;font-size:clamp(5rem,27vw,21rem);letter-spacing:.02em;color:#EDEAFF;opacity:.05;white-space:nowrap;user-select:none;pointer-events:none;transform:translate(-50%,-50%);animation:floatSlow 14s ease-in-out infinite">MAHAYA</div>
+      <div style="position:relative;opacity:{{ heroO }};transform:translateY({{ heroY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .5s,transform .8s cubic-bezier(0.16,1,0.3,1) .5s">
+        <div style="font-family:'Space Mono',monospace;font-size:clamp(8px,2.4vw,10px);letter-spacing:.24em;color:#F0B429;text-indent:.24em;white-space:nowrap;animation:breathe 5s ease-in-out infinite">✦ THE LION'S GATE PORTAL · PEAK 08/08 ✦</div>
+      </div>
+      <h1 style="position:relative;margin:26px 0 0;font-family:'Bodoni Moda',serif;font-weight:600;font-size:clamp(3.2rem,14.5vw,8.5rem);line-height:.98;letter-spacing:-0.02em;color:#EDEAFF;opacity:{{ heroO }};transform:translateY({{ heroY }}px);transition:opacity 1.1s cubic-bezier(0.16,1,0.3,1) .7s,transform 1.1s cubic-bezier(0.16,1,0.3,1) .7s">Yashika<br>Mahajan</h1>
+      <div style="position:relative;margin-top:30px;display:flex;align-items:center;gap:16px;opacity:{{ heroO }};transform:translateY({{ heroY }}px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1) 1.05s,transform .9s cubic-bezier(0.16,1,0.3,1) 1.05s">
+        <span aria-hidden="true" style="display:block;width:44px;height:1px;background:linear-gradient(90deg,transparent,#F0B429);animation:breathe 4s ease-in-out infinite"></span>
+        <span style="font-family:'Space Mono',monospace;font-size:clamp(.7rem,3vw,.9rem);letter-spacing:.42em;color:#9C97C4;text-indent:.42em">IS TURNING</span>
+        <span aria-hidden="true" style="display:block;width:44px;height:1px;background:linear-gradient(270deg,transparent,#F0B429);animation:breathe 4s ease-in-out .6s infinite"></span>
+      </div>
+      <div style="position:relative;font-family:'Bodoni Moda',serif;font-weight:600;font-size:clamp(5rem,22vw,11rem);line-height:1;color:#F0B429;opacity:{{ heroO }};transform:translateY({{ heroY }}px);transition:opacity 1.1s cubic-bezier(0.16,1,0.3,1) 1.2s,transform 1.1s cubic-bezier(0.16,1,0.3,1) 1.2s;animation:glowText 6s ease-in-out infinite">23</div>
+      <div style="position:relative;margin-top:30px;font-family:'Space Mono',monospace;font-size:clamp(.62rem,2.8vw,.8rem);letter-spacing:.3em;color:#9C97C4;text-indent:.3em;opacity:{{ heroO }};transform:translateY({{ heroY }}px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1) 1.4s,transform .9s cubic-bezier(0.16,1,0.3,1) 1.4s">SATURDAY · 08 AUGUST 2026 · 8:08 PM</div>
+      <div aria-hidden="true" style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);color:#F0B429;font-size:15px;opacity:{{ heroO }};transition:opacity 1s ease 1.85s"><span style="display:inline-block;animation:chev 2.2s ease-in-out infinite">↓</span></div>
+    </section>
+
+    <section ref="{{ alignRef }}" data-screen-label="02 The Alignment" style="position:relative;padding:74px 22px 76px;overflow:hidden">
+      <svg aria-hidden="true" viewBox="0 0 400 300" style="position:absolute;right:-16%;top:2%;width:min(122vw,620px);height:auto;opacity:.78;pointer-events:none">
+        <text x="200" y="286" text-anchor="middle" fill="rgba(237,234,255,.13)" font-family="Bodoni Moda,serif" font-size="64" letter-spacing="10">LEO</text>
+        <sc-for list="{{ leoLines }}" as="l" hint-placeholder-count="6">
+          <line x1="{{ l.x1 }}" y1="{{ l.y1 }}" x2="{{ l.x2 }}" y2="{{ l.y2 }}" stroke="rgba(240,180,41,.4)" stroke-width="1" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:{{ leoDash }};transition:stroke-dashoffset 1.6s cubic-bezier(0.16,1,0.3,1) {{ l.de }}s;filter:drop-shadow(0 0 4px rgba(240,180,41,.5))"></line>
+        </sc-for>
+        <sc-for list="{{ leoStars }}" as="s" hint-placeholder-count="9">
+          <g style="opacity:{{ leoStarO }};transition:opacity .9s ease {{ s.de }}s">
+            <circle cx="{{ s.x }}" cy="{{ s.y }}" r="{{ s.halo }}" fill="rgba(240,180,41,.13)"></circle>
+            <circle cx="{{ s.x }}" cy="{{ s.y }}" r="{{ s.r }}" fill="{{ s.fill }}" style="{{ s.glow }}"></circle>
+            <text x="{{ s.x }}" y="{{ s.ly }}" text-anchor="middle" fill="{{ s.labelFill }}" font-family="Space Mono,monospace" font-size="8.5" letter-spacing="1.6">{{ s.name }}</text>
+          </g>
+        </sc-for>
+      </svg>
+      <div style="position:relative;max-width:560px;margin:0 auto">
+        <div style="opacity:{{ alO }};transform:translateY({{ alY }}px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1)">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.32em;color:#F0B429;animation:breathe 5s ease-in-out infinite">✦ THE ALIGNMENT</div>
+          <p style="margin:20px 0 0;font-size:15px;line-height:1.75;color:#9C97C4;max-width:44ch;text-wrap:pretty">On 8/8 the Sun stands in Leo while <strong style="color:#EDEAFF;font-weight:600">Sirius</strong> — the brightest star in the sky — returns to the dawn horizon after seventy nights away. Astrologers call it the year's most potent portal. We call it <strong style="color:#EDEAFF;font-weight:600">Yashika season</strong>.</p>
+        </div>
+        <div style="margin-top:44px">
+          <div style="display:flex;align-items:baseline;gap:14px;padding:20px 0;border-bottom:1px solid rgba(240,180,41,.18);opacity:{{ alO }};transform:translateY({{ alY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .12s,transform .8s cubic-bezier(0.16,1,0.3,1) .12s">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#9C97C4;min-width:70px;flex-shrink:0">DATE</span>
+            <span style="font-family:'Bodoni Moda',serif;font-size:clamp(1.05rem,4.6vw,1.6rem);line-height:1.25;color:#EDEAFF;flex:1;min-width:0">Saturday, 08 August 2026</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:14px;padding:20px 0;border-bottom:1px solid rgba(240,180,41,.18);opacity:{{ alO }};transform:translateY({{ alY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .24s,transform .8s cubic-bezier(0.16,1,0.3,1) .24s">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#9C97C4;min-width:70px;flex-shrink:0">TIME</span>
+            <span style="font-family:'Bodoni Moda',serif;font-size:clamp(1.05rem,4.6vw,1.6rem);line-height:1.25;color:#EDEAFF;flex:1;min-width:0">8:08 PM onwards</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:14px;padding:20px 0;border-bottom:1px solid rgba(240,180,41,.18);opacity:{{ alO }};transform:translateY({{ alY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .36s,transform .8s cubic-bezier(0.16,1,0.3,1) .36s">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#9C97C4;min-width:70px;flex-shrink:0">PLACE</span>
+            <span style="font-family:'Bodoni Moda',serif;font-size:clamp(1.05rem,4.6vw,1.6rem);line-height:1.25;color:#EDEAFF;flex:1;min-width:0">{{ venueText }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:14px;padding:20px 0;border-bottom:1px solid rgba(240,180,41,.18);opacity:{{ alO }};transform:translateY({{ alY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .48s,transform .8s cubic-bezier(0.16,1,0.3,1) .48s">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#9C97C4;min-width:70px;flex-shrink:0">SKY</span>
+            <span style="font-family:'Bodoni Moda',serif;font-size:clamp(1.05rem,4.6vw,1.6rem);line-height:1.25;color:#EDEAFF;flex:1;min-width:0">Sun in Leo · Sirius rising</span>
+          </div>
+        </div>
+        <div aria-hidden="true" style="margin-top:26px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.26em;color:#9C97C4;opacity:.2">OBS.LOG CAL.REF 20·10 — FILED BY TOKCHI</div>
+      </div>
+    </section>
+
+    <section ref="{{ countRef }}" data-screen-label="03 The Countdown" style="position:relative;padding:56px 22px 88px;overflow:hidden">
+      <svg aria-hidden="true" viewBox="0 0 400 300" style="position:absolute;left:-18%;top:0;width:min(118vw,560px);height:auto;opacity:.72;pointer-events:none">
+        <text x="200" y="290" text-anchor="middle" fill="rgba(237,234,255,.11)" font-family="Bodoni Moda,serif" font-size="42" letter-spacing="6">CANIS MAJOR</text>
+        <sc-for list="{{ cmaLines }}" as="l" hint-placeholder-count="6">
+          <line x1="{{ l.x1 }}" y1="{{ l.y1 }}" x2="{{ l.x2 }}" y2="{{ l.y2 }}" stroke="rgba(237,234,255,.3)" stroke-width="1" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:{{ cmaDash }};transition:stroke-dashoffset 1.6s cubic-bezier(0.16,1,0.3,1) {{ l.de }}s"></line>
+        </sc-for>
+        <sc-for list="{{ cmaStars }}" as="s" hint-placeholder-count="7">
+          <g style="opacity:{{ cmaStarO }};transition:opacity .9s ease {{ s.de }}s">
+            <circle cx="{{ s.x }}" cy="{{ s.y }}" r="{{ s.halo }}" fill="rgba(237,234,255,.1)"></circle>
+            <circle cx="{{ s.x }}" cy="{{ s.y }}" r="{{ s.r }}" fill="{{ s.fill }}" style="{{ s.glow }}"></circle>
+            <text x="{{ s.x }}" y="{{ s.ly }}" text-anchor="middle" fill="{{ s.labelFill }}" font-family="Space Mono,monospace" font-size="8.5" letter-spacing="1.6">{{ s.name }}</text>
+          </g>
+        </sc-for>
+      </svg>
+      <div style="position:relative;max-width:560px;margin:0 auto;text-align:center">
+        <div style="opacity:{{ coO }};transform:translateY({{ coY }}px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1)">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.32em;color:#F0B429;animation:breathe 5s ease-in-out infinite">✦ THE COUNTDOWN</div>
+          <h2 style="margin:16px 0 8px;font-family:'Bodoni Moda',serif;font-weight:600;font-size:clamp(1.7rem,7vw,2.6rem);color:#EDEAFF">The portal peaks in…</h2>
+          <p style="margin:0 0 34px;font-size:13.5px;color:#9C97C4">it's buried in stardust — scratch it away</p>
+        </div>
+        <div ref="{{ scratchWrapRef }}" style="position:relative;margin:0 auto;max-width:430px;background:rgba(23,19,57,.9);border:1px solid {{ panelBd }};border-radius:22px;padding:26px 14px 24px;overflow:hidden;opacity:{{ coO }};transform:translateY({{ coY }}px);transition:border-color 1s ease,box-shadow 1s ease,opacity .9s cubic-bezier(0.16,1,0.3,1) .18s,transform .9s cubic-bezier(0.16,1,0.3,1) .18s;box-shadow:{{ panelShadow }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px">
+            <div style="background:rgba(11,10,31,.72);border:1px solid rgba(240,180,41,.2);border-radius:14px;padding:13px 2px;min-width:0">
+              <div ref="{{ ddRef }}" style="font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(1.45rem,7vw,2.2rem);line-height:1.05;color:#EDEAFF;overflow:hidden">00</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.18em;color:#9C97C4;margin-top:7px">DAYS</div>
+            </div>
+            <div style="background:rgba(11,10,31,.72);border:1px solid rgba(240,180,41,.2);border-radius:14px;padding:13px 2px;min-width:0">
+              <div ref="{{ hhRef }}" style="font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(1.45rem,7vw,2.2rem);line-height:1.05;color:#EDEAFF;overflow:hidden">00</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.18em;color:#9C97C4;margin-top:7px">HRS</div>
+            </div>
+            <div style="background:rgba(11,10,31,.72);border:1px solid rgba(240,180,41,.2);border-radius:14px;padding:13px 2px;min-width:0">
+              <div ref="{{ mmRef }}" style="font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(1.45rem,7vw,2.2rem);line-height:1.05;color:#EDEAFF;overflow:hidden">00</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.18em;color:#9C97C4;margin-top:7px">MIN</div>
+            </div>
+            <div style="background:rgba(11,10,31,.72);border:1px solid rgba(240,180,41,.35);border-radius:14px;padding:13px 2px;min-width:0">
+              <div ref="{{ ssRef }}" style="font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(1.45rem,7vw,2.2rem);line-height:1.05;color:#F0B429;overflow:hidden">00</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.18em;color:#9C97C4;margin-top:7px">SEC</div>
+            </div>
+          </div>
+          <div style="margin-top:22px;padding-top:18px;border-top:1px dashed rgba(240,180,41,.22)">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.3em;color:#F0B429;text-indent:.3em">08.08.26 — 8:08 PM IST</div>
+            <div style="margin-top:10px;font-family:'Bodoni Moda',serif;font-size:1.2rem;color:#EDEAFF">{{ venueText }}</div>
+            <sc-if value="{{ hasMap }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ venueMapUrl }}" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.24em;color:#F0B429;text-decoration:none;border-bottom:1px solid rgba(240,180,41,.5);padding-bottom:2px">OPEN IN MAPS ↗</a>
+            </sc-if>
+          </div>
+          <sc-if value="{{ showCanvas }}" hint-placeholder-val="{{ true }}">
+            <canvas ref="{{ canvasRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;border-radius:22px;touch-action:none;cursor:crosshair"></canvas>
+          </sc-if>
+        </div>
+        <sc-if value="{{ showCanvas }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ onScratchBtn }}" style="margin-top:16px;background:none;border:none;color:#9C97C4;font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.22em;cursor:pointer;border-bottom:1px solid rgba(156,151,196,.4);padding:2px 0" style-hover="color:#F0B429;border-color:#F0B429">CAN'T SCRATCH? TAP TO REVEAL ✦</button>
+        </sc-if>
+        <div style="margin-top:26px;font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.24em;color:#9C97C4;opacity:.65">THE PORTAL PEAKS 08/08 — SUN IN LEO · SIRIUS RISING</div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showAwaits }}" hint-placeholder-val="{{ false }}">
+      <section ref="{{ awaitsRef }}" data-screen-label="04 What Awaits" style="max-width:760px;margin:0 auto;padding:60px 24px 90px">
+        <div style="text-align:center;opacity:{{ awO }};transform:translateY({{ awY }}px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1)">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.32em;color:#F0B429">✦ WHAT AWAITS</div>
+          <h2 style="margin:16px 0 40px;font-family:'Bodoni Moda',serif;font-weight:600;font-size:clamp(1.7rem,7vw,2.6rem);color:#EDEAFF">On the other side</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px">
+          <div style="background:rgba(23,19,57,.8);border:1px solid rgba(240,180,41,.18);border-radius:18px;padding:24px;opacity:{{ awO }};transform:translateY({{ awY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .1s,transform .8s cubic-bezier(0.16,1,0.3,1) .1s,border-color .4s ease" style-hover="border-color:rgba(240,180,41,.6)">
+            <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;color:#F0B429">01 · FEAST</div>
+            <div style="font-family:'Bodoni Moda',serif;font-size:1.45rem;color:#EDEAFF;margin:10px 0 6px">The feast</div>
+            <div style="font-size:13px;line-height:1.6;color:#9C97C4">Biryani, burgers, and things on sticks.</div>
+          </div>
+          <div style="background:rgba(23,19,57,.8);border:1px solid rgba(240,180,41,.18);border-radius:18px;padding:24px;opacity:{{ awO }};transform:translateY({{ awY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .2s,transform .8s cubic-bezier(0.16,1,0.3,1) .2s,border-color .4s ease" style-hover="border-color:rgba(240,180,41,.6)">
+            <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;color:#F0B429">02 · POTIONS</div>
+            <div style="font-family:'Bodoni Moda',serif;font-size:1.45rem;color:#EDEAFF;margin:10px 0 6px">The potions</div>
+            <div style="font-size:13px;line-height:1.6;color:#9C97C4">Mocktails, spirits, and a toast at 8:08 sharp.</div>
+          </div>
+          <div style="background:rgba(23,19,57,.8);border:1px solid rgba(240,180,41,.18);border-radius:18px;padding:24px;opacity:{{ awO }};transform:translateY({{ awY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .3s,transform .8s cubic-bezier(0.16,1,0.3,1) .3s,border-color .4s ease" style-hover="border-color:rgba(240,180,41,.6)">
+            <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;color:#F0B429">03 · GAMES</div>
+            <div style="font-family:'Bodoni Moda',serif;font-size:1.45rem;color:#EDEAFF;margin:10px 0 6px">The games</div>
+            <div style="font-size:13px;line-height:1.6;color:#9C97C4">Antakshari, charades, and at least one bad decision.</div>
+          </div>
+          <div style="background:rgba(23,19,57,.8);border:1px solid rgba(240,180,41,.18);border-radius:18px;padding:24px;opacity:{{ awO }};transform:translateY({{ awY }}px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1) .4s,transform .8s cubic-bezier(0.16,1,0.3,1) .4s,border-color .4s ease" style-hover="border-color:rgba(240,180,41,.6)">
+            <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;color:#F0B429">04 · PROOF</div>
+            <div style="font-family:'Bodoni Moda',serif;font-size:1.45rem;color:#EDEAFF;margin:10px 0 6px">The proof</div>
+            <div style="font-size:13px;line-height:1.6;color:#9C97C4">A photo wall, a memory jar, and evidence you were here.</div>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <section ref="{{ rsvpRef }}" data-screen-label="05 The Summons" style="position:relative;padding:56px 22px 112px;overflow:hidden">
+      <svg aria-hidden="true" viewBox="0 0 400 300" style="position:absolute;right:-20%;top:0;width:min(116vw,540px);height:auto;opacity:.7;pointer-events:none">
+        <text x="200" y="288" text-anchor="middle" fill="rgba(237,234,255,.1)" font-family="Bodoni Moda,serif" font-size="34" letter-spacing="5">CORONA BOREALIS</text>
+        <sc-for list="{{ cbLines }}" as="l" hint-placeholder-count="6">
+          <line x1="{{ l.x1 }}" y1="{{ l.y1 }}" x2="{{ l.x2 }}" y2="{{ l.y2 }}" stroke="rgba(240,180,41,.32)" stroke-width="1" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:{{ cbDash }};transition:stroke-dashoffset 1.5s cubic-bezier(0.16,1,0.3,1) {{ l.de }}s"></line>
+        </sc-for>
+        <sc-for list="{{ cbStars }}" as="s" hint-placeholder-count="7">
+          <g style="opacity:{{ cbStarO }};transition:opacity .9s ease {{ s.de }}s">
+            <circle cx="{{ s.x }}" cy="{{ s.y }}" r="{{ s.halo }}" fill="rgba(240,180,41,.1)"></circle>
+            <circle cx="{{ s.x }}" cy="{{ s.y }}" r="{{ s.r }}" fill="{{ s.fill }}" style="{{ s.glow }}"></circle>
+            <text x="{{ s.x }}" y="{{ s.ly }}" text-anchor="middle" fill="{{ s.labelFill }}" font-family="Space Mono,monospace" font-size="8" letter-spacing="1.4">{{ s.name }}</text>
+          </g>
+        </sc-for>
+      </svg>
+      <div style="position:relative;max-width:560px;margin:0 auto">
+        <div style="text-align:center;opacity:{{ rsO }};transform:translateY({{ rsY }}px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1)">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.32em;color:#F0B429;animation:breathe 5s ease-in-out infinite">✦ THE SUMMONS</div>
+          <h2 style="margin:16px 0 8px;font-family:'Bodoni Moda',serif;font-weight:600;font-size:clamp(1.9rem,8vw,2.9rem);color:#EDEAFF">Say you'll step through</h2>
+          <p style="margin:0 0 36px;font-size:13.5px;color:#9C97C4">one tap — your RSVP lands on WhatsApp</p>
+        </div>
+        <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+          <div style="background:rgba(23,19,57,.9);border:1px solid rgba(240,180,41,.45);border-radius:22px;padding:44px 26px;text-align:center;box-shadow:0 0 60px rgba(240,180,41,.14)">
+            <svg viewBox="0 0 80 80" width="72" height="72" aria-hidden="true">
+              <circle cx="40" cy="40" r="34" fill="none" stroke="#F0B429" stroke-width="2" pathLength="1" stroke-dasharray="1" style="animation:ringDraw 1s cubic-bezier(0.16,1,0.3,1) forwards"></circle>
+              <path d="M26,41 L36,51 L55,31" fill="none" stroke="#F0B429" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" style="stroke-dashoffset:1;animation:ringDraw .6s cubic-bezier(0.16,1,0.3,1) .7s forwards"></path>
+            </svg>
+            <div style="margin-top:20px;font-family:'Bodoni Moda',serif;font-size:1.7rem;color:#EDEAFF">You're on the list.</div>
+            <div style="margin-top:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:#F0B429;animation:breathe 4s ease-in-out infinite">SEE YOU ON THE OTHER SIDE ✦</div>
+            <div style="margin-top:14px;font-size:12.5px;color:#9C97C4">if WhatsApp didn't open, message us directly at<br><a href="{{ waDirect }}" target="_blank" rel="noopener" style="text-decoration:none">+91 98372 66622</a></div>
+            <button onClick="{{ onEdit }}" style="margin-top:22px;background:none;border:none;color:#9C97C4;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.22em;cursor:pointer;border-bottom:1px solid rgba(156,151,196,.4);padding:2px 0" style-hover="color:#F0B429;border-color:#F0B429">EDIT RESPONSE</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+          <div style="background:rgba(23,19,57,.93);border:1px solid rgba(237,234,255,.1);border-radius:22px;padding:24px 18px;opacity:{{ rsO }};transform:translateY({{ rsY }}px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1) .15s,transform .9s cubic-bezier(0.16,1,0.3,1) .15s">
+            <label for="rsvp-name" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:#9C97C4;margin-bottom:10px">YOUR NAME</label>
+            <input id="rsvp-name" ref="{{ nameRef }}" type="text" autocomplete="name" placeholder="who's stepping through?" style="width:100%;box-sizing:border-box;background:rgba(11,10,31,.6);border:1px solid rgba(237,234,255,.16);border-radius:12px;padding:15px 16px;color:#EDEAFF;font-size:16px;font-weight:600">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:#9C97C4;margin:24px 0 10px">ARE YOU IN?</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <sc-for list="{{ attOpts }}" as="o" hint-placeholder-count="2">
+                <button type="button" onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ isIn }}" hint-placeholder-val="{{ true }}">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:#9C97C4;margin:24px 0 10px">BRINGING ANYONE?</div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <sc-for list="{{ guestOpts }}" as="o" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:#9C97C4;margin:24px 0 10px">YOUR PLATE</div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <sc-for list="{{ foodOpts }}" as="o" hint-placeholder-count="2">
+                  <button type="button" onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <label for="rsvp-note" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:#9C97C4;margin:24px 0 10px">ANYTHING WE SHOULD KNOW? <span style="opacity:.5;letter-spacing:.1em">(OPTIONAL)</span></label>
+            <textarea id="rsvp-note" ref="{{ noteRef }}" rows="2" placeholder="allergies, song requests, dramatic entrances…" style="width:100%;box-sizing:border-box;background:rgba(11,10,31,.6);border:1px solid rgba(237,234,255,.16);border-radius:12px;padding:15px 16px;color:#EDEAFF;font-size:16px;resize:vertical;font-family:Manrope,sans-serif"></textarea>
+            <div aria-live="polite" style="min-height:18px;margin-top:14px;font-size:12.5px;color:#FF3D71;opacity:{{ errO }};transition:opacity .3s ease">{{ errMsg }}</div>
+            <button onClick="{{ onSubmit }}" style="width:100%;margin-top:8px;background:linear-gradient(135deg,#FF3D71,#e02458);border:none;border-radius:999px;padding:18px;color:#fff;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.3em;text-indent:.3em;cursor:pointer;box-shadow:0 8px 34px rgba(255,61,113,.35);transition:transform .3s cubic-bezier(0.16,1,0.3,1),box-shadow .3s ease" style-hover="transform:translateY(-2px);box-shadow:0 12px 44px rgba(255,61,113,.5)" style-active="transform:translateY(0)">ENTER THE PORTAL</button>
+            <div style="margin-top:14px;text-align:center;font-size:11.5px;color:#9C97C4;opacity:.7">opens WhatsApp with your reply pre-written — just press send</div>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <section ref="{{ sealRef }}" data-screen-label="06 The Seal" style="position:relative;padding:70px 22px 150px;text-align:center;overflow:hidden">
+      <div style="opacity:{{ seO }};transform:translateY({{ seY }}px);transition:opacity 1s cubic-bezier(0.16,1,0.3,1),transform 1s cubic-bezier(0.16,1,0.3,1)">
+        <div aria-hidden="true" style="font-family:'Bodoni Moda',serif;font-size:13px;letter-spacing:.5em;text-indent:.5em;color:#EDEAFF;opacity:.16;animation:breathe 7s ease-in-out infinite">M A H A Y A</div>
+        <div aria-hidden="true" style="margin:34px auto 0;width:2px;height:120px;background:linear-gradient(180deg,transparent,#F0B429,transparent);transform:scaleY({{ sealSeamS }});transition:transform 2.4s cubic-bezier(0.87,0,0.13,1);box-shadow:0 0 22px rgba(240,180,41,.5)"></div>
+        <div style="margin-top:34px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.34em;color:#F0B429;text-indent:.34em">08 · 08 · 26</div>
+        <div style="margin-top:14px;font-family:'Bodoni Moda',serif;font-size:clamp(1.3rem,5.5vw,1.9rem);color:#EDEAFF">See you on the other side.</div>
+        <div style="margin-top:26px;font-size:12.5px;color:#9C97C4">questions, coordinates, conspiracies —<br><a href="{{ waDirect }}" target="_blank" rel="noopener" style="text-decoration:none;font-weight:600">WhatsApp +91 98372 66622</a></div>
+        <div aria-hidden="true" style="margin-top:60px;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.3em;color:#9C97C4;opacity:.18">EST. 20·10 &nbsp;·&nbsp; ✦ TOKCHI WAS HERE</div>
+      </div>
+    </section>
+  </div>
+
+  <div style="position:fixed;left:12px;right:12px;bottom:12px;z-index:60;max-width:560px;margin:0 auto;transform:translateY({{ barY }});transition:transform .6s cubic-bezier(0.16,1,0.3,1)">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(23,19,57,.82);backdrop-filter:blur(14px);border:1px solid rgba(240,180,41,.25);border-radius:999px;padding:10px 10px 10px 20px">
+      <span ref="{{ barTRef }}" style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:#F0B429;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis">— D — H — M</span>
+      <button onClick="{{ onBarRsvp }}" style="flex-shrink:0;background:linear-gradient(135deg,#FF3D71,#e02458);border:none;border-radius:999px;padding:13px 20px;min-height:46px;color:#fff;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.2em;text-indent:.2em;cursor:pointer;box-shadow:0 6px 22px rgba(255,61,113,.4)" style-hover="transform:translateY(-1px)">RSVP</button>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;venueText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Unlocks soon · watch WhatsApp&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Details&quot;},&quot;venueMapUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Details&quot;},&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;919837266622&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Details&quot;},&quot;showAwaits&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;meteorRate&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:0.2,&quot;max&quot;:3,&quot;step&quot;:0.2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Sky&quot;}}">
+const LEO = [
+  { x: .13, y: .60, m: 2.1, n: 'DENEBOLA' }, { x: .30, y: .70, m: 1.4, n: 'CHERTAN' },
+  { x: .27, y: .46, m: 1.7, n: 'ZOSMA' }, { x: .56, y: .40, m: 1.9, n: 'ALGIEBA' },
+  { x: .62, y: .78, m: 2.8, n: 'REGULUS' }, { x: .60, y: .58, m: 1.3, n: 'ETA LEONIS' },
+  { x: .49, y: .28, m: 1.4, n: 'ZETA' }, { x: .40, y: .19, m: 1.5, n: 'RASALAS' },
+  { x: .30, y: .25, m: 1.6, n: 'ALGENUBI' }
+];
+const LEO_EDGES = [[8, 7], [7, 6], [6, 3], [3, 5], [5, 4], [3, 2], [2, 0], [0, 1], [1, 4], [2, 1]];
+const CMA = [
+  { x: .34, y: .22, m: 3.2, n: 'SIRIUS' }, { x: .20, y: .32, m: 1.6, n: 'MIRZAM' },
+  { x: .42, y: .40, m: 1.2, n: '' }, { x: .54, y: .66, m: 1.8, n: 'WEZEN' },
+  { x: .36, y: .76, m: 1.7, n: 'ADHARA' }, { x: .70, y: .70, m: 1.4, n: 'ALUDRA' },
+  { x: .24, y: .90, m: 1.3, n: 'FURUD' }
+];
+const CMA_EDGES = [[0, 1], [0, 2], [2, 3], [3, 4], [3, 5], [4, 6], [2, 4]];
+const CB = [
+  { x: .12, y: .58, m: 1.2, n: '' }, { x: .23, y: .40, m: 1.4, n: '' },
+  { x: .36, y: .30, m: 1.5, n: '' }, { x: .50, y: .27, m: 2.4, n: 'ALPHECCA' },
+  { x: .64, y: .32, m: 1.5, n: '' }, { x: .76, y: .43, m: 1.3, n: '' },
+  { x: .86, y: .60, m: 1.2, n: '' }
+];
+const CB_EDGES = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6]];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rm = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.state = {
+      phase: 'locked', showGate: true, showFallback: this.rm, infP: 0,
+      rvAlign: false, rvCount: false, rvAwaits: false, rvRsvp: false, rvSeal: false,
+      sealClosed: false, scratchGone: false, panelHot: false,
+      att: '', guests: 0, food: '', errMsg: '', submitted: false,
+      past: false, rsvpVis: false, soundOn: false
+    };
+    this._prev = {}; this._cells = new Set();
+    ['onFallback', 'onToggleSound', 'onBarRsvp', 'onSubmit', 'onEdit', 'onScratchBtn'].forEach(k => { this[k] = this[k].bind(this); });
+    this.bgRef = el => { if (el && !el._b) { el._b = 1; this.initBg(el); } };
+    this.railRef = el => this.rail = el;
+    this.mahayaRef = el => this.mahaya = el;
+    this.infRef = el => { if (el && !el._b) { el._b = 1; this.bindInf(el); } };
+    this.infPathRef = el => this.infPath = el;
+    this.infFillRef = el => { if (el) { this.infFill = el; el.style.strokeDasharray = 700; el.style.strokeDashoffset = 700; } };
+    this.infHeadRef = el => this.infHead = el;
+    this.infHintRef = el => this.infHint = el;
+    this.canvasRef = el => { if (el && !el._painted) this.setupScratch(el); this.canvas = el; };
+    this.scratchWrapRef = el => this.scratchWrap = el;
+    this.nameRef = el => this.nameEl = el;
+    this.noteRef = el => this.noteEl = el;
+    this.barTRef = el => this.barT = el;
+    ['alignRef', 'countRef', 'awaitsRef', 'rsvpRef', 'sealRef', 'ddRef', 'hhRef', 'mmRef', 'ssRef'].forEach(k => {
+      this[k] = el => { this['_' + k] = el; };
+    });
+    this.target = Date.UTC(2026, 7, 8, 14, 38, 0);
+  }
+
+  componentDidMount() {
+    document.body.style.overflow = 'hidden';
+    this._tick = setInterval(() => this.tick(), 500);
+    this.tick();
+    this._fb = setTimeout(() => { if (this.state.phase === 'locked') this.setState({ showFallback: true }); }, 9000);
+    this._onScroll = e => {
+      if (this._sraf) return;
+      this._sraf = requestAnimationFrame(() => { this._sraf = null; this.checkScroll(e && e.target); });
+    };
+    document.addEventListener('scroll', this._onScroll, { capture: true, passive: true });
+    this._onResize = () => { this.sizeBg(); this._pts = null; };
+    addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() {
+    clearInterval(this._tick); clearTimeout(this._fb);
+    document.removeEventListener('scroll', this._onScroll, true);
+    removeEventListener('resize', this._onResize);
+    cancelAnimationFrame(this._raf);
+    if (this.actx) this.actx.close();
+    clearInterval(this._spark);
+    document.body.style.overflow = '';
+  }
+
+  // ---------- background sky ----------
+  initBg(cv) {
+    this.bg = cv; this.bgc = cv.getContext('2d');
+    const sp = document.createElement('canvas'); sp.width = sp.height = 64;
+    const sc = sp.getContext('2d');
+    const g = sc.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.14, 'rgba(255,250,235,.85)');
+    g.addColorStop(.4, 'rgba(255,225,170,.22)'); g.addColorStop(1, 'rgba(255,220,160,0)');
+    sc.fillStyle = g; sc.fillRect(0, 0, 64, 64);
+    this.sprite = sp;
+    this.sky = Array.from({ length: innerWidth < 560 ? 120 : 210 }, () => ({
+      x: Math.random(), y: Math.random(), r: .4 + Math.random() * 1.7,
+      z: .25 + Math.random() * .75, ph: Math.random() * 7, sp: .4 + Math.random() * 1.7
+    }));
+    this.shooters = []; this.nextShoot = 0; this.fx = null;
+    this.sizeBg();
+    const loop = t => {
+      this._raf = requestAnimationFrame(loop);
+      this.drawBg(t / 1000);
+    };
+    this._raf = requestAnimationFrame(loop);
+  }
+  sizeBg() {
+    if (!this.bg) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    this.bw = innerWidth; this.bh = innerHeight;
+    this.bg.width = this.bw * dpr; this.bg.height = this.bh * dpr;
+    this.bgc.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  drawBg(t) {
+    const c = this.bgc, w = this.bw, h = this.bh;
+    if (!c || !w) return;
+    const sy = this._scrollY || 0;
+    c.clearRect(0, 0, w, h);
+    const bgg = c.createLinearGradient(0, 0, w * .6, h);
+    bgg.addColorStop(0, '#0B0A1F'); bgg.addColorStop(.5, '#120e33'); bgg.addColorStop(1, '#0B0A1F');
+    c.fillStyle = bgg; c.fillRect(0, 0, w, h);
+    [[.22, .26, '201,113,57', .11], [.8, .74, '255,61,113', .07], [.62, .12, '240,180,41', .06]].forEach((n, i) => {
+      const nx = w * n[0] + Math.sin(t * .06 + i) * w * .05;
+      const ny = h * n[1] + Math.cos(t * .05 + i) * h * .05 - sy * .02;
+      const g = c.createRadialGradient(nx, ny, 0, nx, ny, Math.max(w, h) * .55);
+      g.addColorStop(0, 'rgba(' + n[2] + ',' + n[3] + ')'); g.addColorStop(1, 'rgba(' + n[2] + ',0)');
+      c.fillStyle = g; c.fillRect(0, 0, w, h);
+    });
+
+    const fx = this.fx;
+    let warp = 0, bloom = 0;
+    if (fx) {
+      const p = (performance.now() - fx.t0) / fx.dur;
+      if (p >= 1) this.fx = null;
+      else { warp = p < .5 ? p * 2 : (1 - p) * 2; bloom = 1 - p; fx.p = p; }
+    }
+
+    this.sky.forEach(s => {
+      let x = s.x * w, y = ((s.y * h - sy * .12 * s.z) % (h + 80) + h + 80) % (h + 80) - 40;
+      const tw = .3 + .7 * (.5 + .5 * Math.sin(t * s.sp + s.ph));
+      let len = 0;
+      if (warp > 0) {
+        const dx = x - w / 2, dy = y - h / 2, k = 1 + warp * 1.6 * s.z;
+        x = w / 2 + dx * k; y = h / 2 + dy * k; len = warp * 90 * s.z;
+      }
+      if (len > 1.5) {
+        const a = Math.atan2(y - h / 2, x - w / 2);
+        c.strokeStyle = 'rgba(240,225,200,' + (tw * .85) + ')';
+        c.lineWidth = s.r * 1.4; c.lineCap = 'round';
+        c.beginPath(); c.moveTo(x, y); c.lineTo(x - Math.cos(a) * len, y - Math.sin(a) * len); c.stroke();
+      } else {
+        const d = s.r * 7 * (1 + tw * .3);
+        c.globalAlpha = Math.min(1, tw * s.z + .08);
+        c.drawImage(this.sprite, x - d / 2, y - d / 2, d, d);
+        c.globalAlpha = 1;
+      }
+    });
+
+    // Leo, lit and named
+    const cs = Math.min(w, h), sm = w < 560;
+    const lw = sm ? w * .92 : cs * .5, lh = lw * .74;
+    const lx = sm ? w * .04 : w * .06, ly = (sm ? h * .16 : h * .1) - sy * .05;
+    const lp = LEO.map(s => ({ x: lx + s.x * lw, y: ly + s.y * lh, m: s.m, n: s.n }));
+    c.strokeStyle = 'rgba(240,180,41,' + (sm ? .2 : .28) + ')'; c.lineWidth = 1; c.lineCap = 'round';
+    LEO_EDGES.forEach(e => { c.beginPath(); c.moveTo(lp[e[0]].x, lp[e[0]].y); c.lineTo(lp[e[1]].x, lp[e[1]].y); c.stroke(); });
+    c.textAlign = 'center';
+    lp.forEach((p, i) => {
+      const isReg = LEO[i].n === 'REGULUS';
+      const pulse = .6 + .4 * Math.sin(t * (.5 + i * .09) + i);
+      const d = p.m * (isReg ? 15 : 9) * (isReg ? 1 + .08 * Math.sin(t * 1.4) : 1);
+      c.globalAlpha = isReg ? .95 : .55 + .3 * pulse;
+      c.drawImage(this.sprite, p.x - d / 2, p.y - d / 2, d, d);
+      c.globalAlpha = 1;
+      if (isReg || (!sm && (LEO[i].n === 'DENEBOLA' || LEO[i].n === 'ALGIEBA'))) {
+        c.fillStyle = isReg ? 'rgba(240,180,41,' + (sm ? .7 : .85) + ')' : 'rgba(240,180,41,.5)';
+        c.font = (isReg ? 'bold ' : '') + (sm ? 8 : 9) + 'px "Space Mono", monospace';
+        c.fillText(LEO[i].n, p.x, p.y + d * .5 + 13);
+      }
+    });
+    c.fillStyle = 'rgba(237,234,255,' + (sm ? .045 : .06) + ')';
+    c.font = '600 ' + Math.round(cs * (sm ? .13 : .17)) + 'px "Bodoni Moda", serif';
+    c.fillText('LEO', lx + lw * .42, ly + lh * 1.06);
+    c.fillStyle = 'rgba(240,180,41,' + (sm ? .26 : .34) + ')';
+    c.font = (sm ? 7.5 : 9) + 'px "Space Mono", monospace';
+    c.fillText('C O N S T E L L A T I O N   ·   S U N   I N   L E O', lx + lw * .42, ly + lh * 1.06 + 18);
+
+    // Sirius
+    const sxp = w * (sm ? .68 : .86), syp = (sm ? h * .155 : h * .16) - sy * .04;
+    const fl = .78 + .22 * Math.sin(t * 1.9);
+    c.globalAlpha = fl; const sd = 44;
+    c.drawImage(this.sprite, sxp - sd / 2, syp - sd / 2, sd, sd);
+    c.globalAlpha = 1;
+    c.strokeStyle = 'rgba(237,234,255,' + (.4 * fl) + ')'; c.lineWidth = 1;
+    [[0, 1], [1, 0], [.7, .7], [.7, -.7]].forEach(v => {
+      const L = 26 + 8 * fl;
+      c.beginPath(); c.moveTo(sxp - v[0] * L, syp - v[1] * L); c.lineTo(sxp + v[0] * L, syp + v[1] * L); c.stroke();
+    });
+    c.fillStyle = 'rgba(237,234,255,.6)'; c.font = 'bold ' + (sm ? 8 : 9) + 'px "Space Mono", monospace';
+    c.fillText('SIRIUS', sxp, syp + 34);
+    c.fillStyle = 'rgba(156,151,196,.45)'; c.font = (sm ? 7 : 8) + 'px "Space Mono", monospace';
+    c.fillText('α CMa · RISING', sxp, syp + 46);
+
+    // meteor shower
+    const rate = Math.max(.15, this.props.meteorRate ?? 1);
+    if (t > this.nextShoot) {
+      this.nextShoot = t + (.5 + Math.random() * .9) / rate;
+      const big = Math.random() < .2;
+      this.shooters.push({
+        t0: t, x: Math.random() * w * 1.1 - w * .15, y: Math.random() * h * .6 - h * .15,
+        a: .5 + Math.random() * .45, sp: big ? 330 : 520 + Math.random() * 340,
+        len: big ? 190 : 80 + Math.random() * 90, life: big ? 1.7 : .8 + Math.random() * .5,
+        w: big ? 2.4 : 1.1 + Math.random() * .7
+      });
+      if (this.shooters.length > 9) this.shooters.shift();
+    }
+    this.shooters.forEach(s => {
+      const p = (t - s.t0) / s.life;
+      if (p < 0 || p > 1) return;
+      const e = 1 - Math.pow(1 - p, 1.7);
+      const x0 = s.x + Math.cos(s.a) * e * s.sp * s.life, y0 = s.y + Math.sin(s.a) * e * s.sp * s.life;
+      const fade = Math.sin(p * Math.PI);
+      const g = c.createLinearGradient(x0, y0, x0 - Math.cos(s.a) * s.len, y0 - Math.sin(s.a) * s.len);
+      g.addColorStop(0, 'rgba(255,253,245,' + fade + ')');
+      g.addColorStop(.3, 'rgba(255,230,185,' + fade * .45 + ')');
+      g.addColorStop(1, 'rgba(255,230,185,0)');
+      c.strokeStyle = g; c.lineWidth = s.w; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(x0, y0); c.lineTo(x0 - Math.cos(s.a) * s.len, y0 - Math.sin(s.a) * s.len); c.stroke();
+      c.globalAlpha = fade; const hd = s.w * 9;
+      c.drawImage(this.sprite, x0 - hd / 2, y0 - hd / 2, hd, hd);
+      c.globalAlpha = 1;
+    });
+    this.shooters = this.shooters.filter(s => (t - s.t0) < s.life);
+
+    // bloom rings + flood (1g)
+    if (fx && bloom > 0) {
+      const p = fx.p, cx = fx.x * w, cy = fx.y * h, R = Math.hypot(w, h);
+      [0, .16, .34].forEach(off => {
+        const rp = (p - off) / (1 - off);
+        if (rp > 0 && rp < 1) {
+          c.strokeStyle = 'rgba(240,180,41,' + (.45 * (1 - rp)) + ')';
+          c.lineWidth = 3 * (1 - rp) + .5;
+          c.beginPath(); c.arc(cx, cy, rp * R * .8, 0, 7); c.stroke();
+        }
+      });
+      const gl = Math.max(0, 1 - p * 1.25);
+      const g = c.createRadialGradient(cx, cy, 0, cx, cy, R * .72);
+      g.addColorStop(0, 'rgba(255,238,190,' + (.8 * gl) + ')');
+      g.addColorStop(.35, 'rgba(240,180,41,' + (.32 * gl) + ')');
+      g.addColorStop(1, 'rgba(240,180,41,0)');
+      c.fillStyle = g; c.fillRect(0, 0, w, h);
+    }
+  }
+  bloom(x, y, dur) { this.fx = { t0: performance.now(), dur: dur || 1700, x: x == null ? .5 : x, y: y == null ? .5 : y }; }
+
+  // ---------- gate: draw the infinity ----------
+  bindInf(box) {
+    const build = () => {
+      if (this._pts || !this.infPath) return;
+      const L = this.infPath.getTotalLength();
+      this._L = L;
+      this._pts = Array.from({ length: 121 }, (_, i) => this.infPath.getPointAtLength(L * i / 120));
+      if (this.infFill) { this.infFill.style.strokeDasharray = L; this.infFill.style.strokeDashoffset = L; }
+    };
+    const at = e => {
+      const r = box.getBoundingClientRect();
+      const svg = box.querySelector('svg').getBoundingClientRect();
+      return { x: (e.clientX - svg.left) / svg.width * 300, y: (e.clientY - svg.top) / svg.height * 190, r };
+    };
+    let idx = 0, drawing = 0;
+    const paint = () => {
+      const p = idx / 120;
+      if (this.infFill) this.infFill.style.strokeDashoffset = this._L * (1 - p);
+      const q = this._pts[Math.min(120, idx)];
+      if (this.infHead && q) { this.infHead.setAttribute('cx', q.x.toFixed(1)); this.infHead.setAttribute('cy', q.y.toFixed(1)); }
+      if (this.infHint) {
+        this.infHint.textContent = idx >= 120 ? '✦ INFINITY CLOSED' : idx === 0 ? 'START AT THE LIGHT · ONE STROKE' : 'KEEP GOING · ' + Math.round(p * 100) + '%';
+      }
+      if (idx >= 120 && this.state.phase === 'locked') this.open();
+    };
+    this._infPaint = paint;
+    box.addEventListener('pointerdown', e => {
+      build();
+      if (this.state.phase !== 'locked' || !this._pts) return;
+      const { x, y } = at(e);
+      if (Math.hypot(x - this._pts[idx].x, y - this._pts[idx].y) < 46) drawing = 1;
+      try { box.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    box.addEventListener('pointermove', e => {
+      if (!drawing || !this._pts || this.state.phase !== 'locked') return;
+      const { x, y } = at(e);
+      for (let k = 1; k <= 5; k++) {
+        const j = Math.min(120, idx + k);
+        if (Math.hypot(x - this._pts[j].x, y - this._pts[j].y) < 26) { idx = j; break; }
+      }
+      paint();
+      if (idx >= 120) drawing = 0;
+    });
+    const up = () => { drawing = 0; };
+    box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up);
+    ['wheel', 'touchmove'].forEach(ev => box.addEventListener(ev, e => { if (this.state.showGate) e.preventDefault(); }, { passive: false }));
+    this._autoTrace = () => {
+      build();
+      if (!this._pts) return;
+      const t0 = performance.now();
+      const step = t => {
+        const k = Math.min(1, (t - t0) / 1400);
+        idx = Math.round(k * 120); paint();
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    setTimeout(build, 80);
+  }
+
+  onFallback() { if (this.state.phase === 'locked') { if (this.rm) this.open(); else this._autoTrace(); } }
+
+  open() {
+    if (this.state.phase !== 'locked') return;
+    this.setState({ phase: 'opening' });
+    if (!this.rm) { this.bloom(.5, .5, 2200); setTimeout(() => this.bloom(.5, .42, 1500), 700); }
+    setTimeout(() => {
+      this.setState({ showGate: false, phase: 'open' });
+      document.body.style.overflow = '';
+      const sc = this.findScroller();
+      if (sc && sc.scrollTo) sc.scrollTo(0, 0);
+      setTimeout(() => this.checkScroll(null), 80);
+    }, this.rm ? 200 : 1750);
+  }
+
+  // ---------- scroll ----------
+  findScroller() {
+    if (this._scroller && this._scroller.isConnected) return this._scroller;
+    let el = this._rsvpRef || this._sealRef;
+    while (el && el !== document.documentElement) {
+      if (el.scrollHeight > el.clientHeight + 4) {
+        const cs = getComputedStyle(el);
+        if (el === document.body || /(auto|scroll|overlay)/.test(cs.overflowY)) { this._scroller = el; return el; }
+      }
+      el = el.parentElement;
+    }
+    this._scroller = document.scrollingElement || document.documentElement;
+    return this._scroller;
+  }
+  checkScroll(t) {
+    const sc = (t && t !== document && t.scrollHeight > t.clientHeight) ? (this._scroller = t) : this.findScroller();
+    const max = sc.scrollHeight - sc.clientHeight;
+    this._scrollY = sc.scrollTop;
+    if (this.rail) this.rail.style.transform = 'scaleY(' + (max > 0 ? Math.min(1, sc.scrollTop / max) : 0) + ')';
+    if (this.mahaya) this.mahaya.style.marginTop = (sc.scrollTop * .18).toFixed(1) + 'px';
+    if (this.state.showGate) return;
+    const vh = innerHeight, upd = {};
+    [['_alignRef', 'rvAlign'], ['_countRef', 'rvCount'], ['_awaitsRef', 'rvAwaits'], ['_rsvpRef', 'rvRsvp'], ['_sealRef', 'rvSeal']].forEach(m => {
+      if (!this.state[m[1]] && this[m[0]] && this[m[0]].getBoundingClientRect().top < vh * .88) {
+        upd[m[1]] = true;
+        if (m[1] === 'rvSeal') setTimeout(() => this.setState({ sealClosed: true }), 2400);
+      }
+    });
+    if (this._alignRef) {
+      const past = this._alignRef.getBoundingClientRect().top < vh * .6;
+      if (past !== this.state.past) upd.past = past;
+    }
+    if (this._rsvpRef) {
+      const r = this._rsvpRef.getBoundingClientRect();
+      const vis = r.top < vh * .9 && r.bottom > vh * .1;
+      if (vis !== this.state.rsvpVis) upd.rsvpVis = vis;
+    }
+    if (Object.keys(upd).length) this.setState(upd);
+  }
+
+  // ---------- scratch ----------
+  setupScratch(cv) {
+    cv._painted = true;
+    const paint = () => {
+      if (!cv.isConnected || this.state.scratchGone) return;
+      const r = (this.scratchWrap || cv).getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      cv.width = r.width * dpr; cv.height = r.height * dpr;
+      const c = cv.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const w = r.width, h = r.height;
+      const g = c.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, '#191540'); g.addColorStop(.5, '#100e2c'); g.addColorStop(1, '#1c1746');
+      c.fillStyle = g; c.fillRect(0, 0, w, h);
+      for (let i = 0; i < 700; i++) {
+        const gold = Math.random() < .3;
+        c.fillStyle = gold ? 'rgba(240,180,41,' + (.06 + Math.random() * .32) + ')' : 'rgba(237,234,255,' + (.04 + Math.random() * .26) + ')';
+        const s = Math.random() * 2 + .4;
+        c.fillRect(Math.random() * w, Math.random() * h, s, s);
+      }
+      c.textAlign = 'center'; c.fillStyle = 'rgba(240,180,41,.88)';
+      c.font = '700 12px "Space Mono", monospace';
+      c.fillText('✦  S C R A T C H   T H E   S T A R D U S T  ✦', w / 2, h / 2 - 8);
+      c.fillStyle = 'rgba(156,151,196,.7)'; c.font = '11px Manrope, sans-serif';
+      c.fillText('rub away the night to reveal your coordinates', w / 2, h / 2 + 16);
+      this._sc = { c, w, h };
+    };
+    requestAnimationFrame(paint);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!this._started && !this.state.scratchGone) paint(); });
+    let last = null;
+    const erase = (x, y) => {
+      if (!this._sc) { paint(); if (!this._sc) return; }
+      const { c } = this._sc; this._started = 1;
+      c.globalCompositeOperation = 'destination-out';
+      c.lineWidth = 58; c.lineCap = 'round'; c.lineJoin = 'round';
+      c.beginPath(); c.moveTo(last ? last.x : x, last ? last.y : y); c.lineTo(x, y); c.stroke();
+      c.beginPath(); c.arc(x, y, 29, 0, 7); c.fill();
+      c.globalCompositeOperation = 'source-over';
+      last = { x, y };
+      const cols = 16, rows = 12, cw = this._sc.w / cols, ch = this._sc.h / rows;
+      const ci = Math.floor(x / cw), ri = Math.floor(y / ch);
+      for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) {
+        const cc = ci + dx, rr = ri + dy;
+        if (cc >= 0 && cc < cols && rr >= 0 && rr < rows) this._cells.add(rr * cols + cc);
+      }
+      if (this._cells.size / (cols * rows) >= .5) this.revealScratch();
+    };
+    cv.addEventListener('pointerdown', e => {
+      this._scr = 1; last = null;
+      try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+      const r = cv.getBoundingClientRect(); erase(e.clientX - r.left, e.clientY - r.top);
+    });
+    cv.addEventListener('pointermove', e => {
+      if (!this._scr) return;
+      const r = cv.getBoundingClientRect(); erase(e.clientX - r.left, e.clientY - r.top);
+    });
+    const up = () => { this._scr = 0; last = null; };
+    cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  }
+  revealScratch() {
+    if (this._revealed) return; this._revealed = 1;
+    const done = () => this.setState({ scratchGone: true, panelHot: true });
+    if (this.canvas && !this.rm) {
+      this.canvas.style.pointerEvents = 'none';
+      const r = this.scratchWrap ? this.scratchWrap.getBoundingClientRect() : null;
+      this.bloom(r ? (r.left + r.width / 2) / innerWidth : .5, r ? (r.top + r.height / 2) / innerHeight : .5, 1900);
+      this.canvas.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 800, easing: 'ease', fill: 'forwards' }).onfinish = done;
+    } else done();
+  }
+  onScratchBtn() { this.revealScratch(); }
+
+  // ---------- countdown ----------
+  tick() {
+    let t = this.target - Date.now(); if (t < 0) t = 0;
+    const p = n => String(n).padStart(2, '0');
+    const d = Math.floor(t / 864e5), h = Math.floor(t / 36e5) % 24, m = Math.floor(t / 6e4) % 60, s = Math.floor(t / 1e3) % 60;
+    this.upd('_ddRef', p(d)); this.upd('_hhRef', p(h)); this.upd('_mmRef', p(m)); this.upd('_ssRef', p(s));
+    if (this.barT) {
+      const txt = t === 0 ? "IT'S TONIGHT ✦" : p(d) + 'D ' + p(h) + 'H ' + p(m) + 'M ' + p(s) + 'S';
+      if (this.barT.textContent !== txt) this.barT.textContent = txt;
+    }
+    this.checkScroll(null);
+  }
+  upd(k, v) {
+    const el = this[k];
+    if (!el || this._prev[k] === v) return;
+    this._prev[k] = v; el.textContent = v;
+    if (!this.rm && el.animate) el.animate(
+      [{ transform: 'translateY(.45em)', opacity: .2 }, { transform: 'translateY(0)', opacity: 1 }],
+      { duration: 380, easing: 'cubic-bezier(0.16,1,0.3,1)' });
+  }
+
+  // ---------- sound ----------
+  onToggleSound() {
+    if (!this.actx) {
+      try {
+        const A = window.AudioContext || window.webkitAudioContext;
+        this.actx = new A();
+        const ctx = this.actx;
+        this.master = ctx.createGain(); this.master.gain.value = .0001;
+        const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 720;
+        this.master.connect(lp); lp.connect(ctx.destination);
+        [[98, .22], [146.83, .16], [196, .12], [293.66, .06]].forEach(([f, g]) => {
+          const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+          const og = ctx.createGain(); og.gain.value = g;
+          o.connect(og); og.connect(this.master); o.start();
+        });
+        const lfo = ctx.createOscillator(); lfo.frequency.value = .06;
+        const lg = ctx.createGain(); lg.gain.value = .025;
+        lfo.connect(lg); lg.connect(this.master.gain); lfo.start();
+        this._spark = setInterval(() => {
+          if (!this.state.soundOn || !this.actx) return;
+          const tt = ctx.currentTime, f = [1046.5, 1318.5, 1568, 2093][(Math.random() * 4) | 0];
+          const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(.0001, tt);
+          g.gain.exponentialRampToValueAtTime(.02, tt + .06);
+          g.gain.exponentialRampToValueAtTime(.0001, tt + 1.4);
+          o.connect(g); g.connect(ctx.destination); o.start(tt); o.stop(tt + 1.5);
+        }, 4200);
+      } catch (e) { return; }
+    }
+    const on = !this.state.soundOn, t = this.actx.currentTime;
+    this.master.gain.cancelScheduledValues(t);
+    this.master.gain.setValueAtTime(Math.max(this.master.gain.value, .0001), t);
+    if (on) { this.actx.resume(); this.master.gain.exponentialRampToValueAtTime(.07, t + 1.8); }
+    else this.master.gain.exponentialRampToValueAtTime(.0001, t + .5);
+    this.setState({ soundOn: on });
+  }
+
+  // ---------- rsvp ----------
+  onSubmit() {
+    const name = (this.nameEl && this.nameEl.value || '').trim();
+    const note = (this.noteEl && this.noteEl.value || '').trim();
+    const { att, guests, food } = this.state;
+    if (!name) return this.setState({ errMsg: "Add your name so we know who's stepping through." });
+    if (!att) return this.setState({ errMsg: 'Tell us — are you in?' });
+    if (att === 'in' && !food) return this.setState({ errMsg: 'Veg or non-veg — the biryani needs a count.' });
+    const lines = ["\u2726 RSVP \u00b7 YASHIKA'S 23RD \u00b7 THE LION'S PORTAL \u2726", 'Name: ' + name,
+      'Status: ' + (att === 'in' ? "I'M IN \u2726" : "CAN'T MAKE IT")];
+    if (att === 'in') {
+      lines.push('Bringing: ' + (guests === 0 ? 'just me' : '+' + guests));
+      lines.push('Plate: ' + food.toUpperCase());
+    }
+    if (note) lines.push('Note: ' + note);
+    const num = (this.props.whatsappNumber ?? '919837266622').replace(/\D/g, '');
+    open('https://wa.me/' + num + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+    if (!this.rm) this.bloom(.5, .5, 1800);
+    this.setState({ submitted: true, errMsg: '' });
+  }
+  onEdit() { this.setState({ submitted: false }); }
+  onBarRsvp() {
+    if (!this._rsvpRef) return;
+    const sc = this.findScroller();
+    const top = this._rsvpRef.getBoundingClientRect().top + sc.scrollTop - 12;
+    if (sc.scrollTo) sc.scrollTo({ top, behavior: this.rm ? 'auto' : 'smooth' }); else sc.scrollTop = top;
+  }
+  optStyle(sel, accent) {
+    const bd = sel ? (accent || '#F0B429') : 'rgba(237,234,255,0.16)';
+    const co = sel ? (accent || '#F0B429') : '#9C97C4';
+    const bg = sel ? (accent === '#FF3D71' ? 'rgba(255,61,113,0.09)' : 'rgba(240,180,41,0.09)') : 'rgba(11,10,31,0.5)';
+    const sh = sel ? '0 0 0 1px ' + (accent || '#F0B429') + ' inset, 0 0 26px rgba(240,180,41,0.12)' : 'none';
+    return 'flex:1 1 auto;min-width:88px;min-height:50px;padding:13px 8px;border-radius:14px;cursor:pointer;text-align:center;' +
+      "font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.18em;transition:all .3s cubic-bezier(0.16,1,0.3,1);" +
+      'border:1px solid ' + bd + ';color:' + co + ';background:' + bg + ';box-shadow:' + sh;
+  }
+
+  mapStars(set, w, h, revealed) {
+    return set.map((s, i) => {
+      const r = 1.6 + s.m * 1.1, named = !!s.n;
+      return {
+        x: +(s.x * w).toFixed(1), y: +(s.y * h).toFixed(1),
+        r: +r.toFixed(1), halo: +(r * 3.2).toFixed(1),
+        ly: +(s.y * h - r - 9).toFixed(1), name: s.n,
+        de: +(i * .09).toFixed(2),
+        fill: s.m > 2 ? '#FFE9B0' : '#EDEAFF',
+        labelFill: s.m > 2 ? 'rgba(240,180,41,.85)' : 'rgba(240,180,41,.5)',
+        glow: 'filter:drop-shadow(0 0 ' + (s.m > 2 ? 12 : 6) + 'px rgba(240,180,41,' + (s.m > 2 ? .95 : .6) + '))'
+      };
+    });
+  }
+  mapLines(set, edges, w, h) {
+    return edges.map((e, i) => ({
+      x1: +(set[e[0]].x * w).toFixed(1), y1: +(set[e[0]].y * h).toFixed(1),
+      x2: +(set[e[1]].x * w).toFixed(1), y2: +(set[e[1]].y * h).toFixed(1),
+      de: +(.25 + i * .11).toFixed(2)
+    }));
+  }
+
+  renderVals() {
+    const st = this.state, locked = st.phase === 'locked';
+    const rv = k => st[k] ? 1 : 0, ry = k => st[k] ? 0 : 28;
+    const venueText = this.props.venueText ?? 'Unlocks soon · watch WhatsApp';
+    const mapUrl = this.props.venueMapUrl ?? '';
+    const num = (this.props.whatsappNumber ?? '919837266622').replace(/\D/g, '');
+    const pk = (key, val) => () => { const o = { errMsg: '' }; o[key] = val; this.setState(o); };
+    return {
+      showGate: st.showGate, showFallback: st.showFallback && locked,
+      gateLX: locked ? '0%' : '-103%', gateRX: locked ? '0%' : '103%',
+      gateUIO: locked ? 1 : 0,
+      heroO: st.showGate ? 0 : 1, heroY: st.showGate ? 28 : 0,
+      leoStars: this.mapStars(LEO, 400, 300), leoLines: this.mapLines(LEO, LEO_EDGES, 400, 300),
+      leoDash: st.rvAlign ? 0 : 1, leoStarO: st.rvAlign ? 1 : 0,
+      cmaStars: this.mapStars(CMA, 400, 300), cmaLines: this.mapLines(CMA, CMA_EDGES, 400, 300),
+      cmaDash: st.rvCount ? 0 : 1, cmaStarO: st.rvCount ? 1 : 0,
+      cbStars: this.mapStars(CB, 400, 300), cbLines: this.mapLines(CB, CB_EDGES, 400, 300),
+      cbDash: st.rvRsvp ? 0 : 1, cbStarO: st.rvRsvp ? 1 : 0,
+      alO: rv('rvAlign'), alY: ry('rvAlign'), coO: rv('rvCount'), coY: ry('rvCount'),
+      awO: rv('rvAwaits'), awY: ry('rvAwaits'), rsO: rv('rvRsvp'), rsY: ry('rvRsvp'),
+      seO: rv('rvSeal'), seY: ry('rvSeal'),
+      sealSeamS: st.rvSeal ? (st.sealClosed ? .04 : 1) : 0,
+      venueText, hasMap: !!mapUrl, venueMapUrl: mapUrl,
+      showCanvas: !st.scratchGone,
+      panelBd: st.panelHot ? 'rgba(240,180,41,0.55)' : 'rgba(240,180,41,0.2)',
+      panelShadow: st.panelHot ? '0 0 60px rgba(240,180,41,0.18)' : 'none',
+      showAwaits: this.props.showAwaits ?? false,
+      attOpts: [
+        { label: "I'M IN \u2726", pick: pk('att', 'in'), style: this.optStyle(st.att === 'in') },
+        { label: "CAN'T MAKE IT", pick: pk('att', 'out'), style: this.optStyle(st.att === 'out', '#FF3D71') }
+      ],
+      guestOpts: [0, 1, 2].map(n => ({ label: n === 0 ? 'JUST ME' : '+' + n, pick: pk('guests', n), style: this.optStyle(st.guests === n) })),
+      foodOpts: [
+        { label: 'VEG', pick: pk('food', 'veg'), style: this.optStyle(st.food === 'veg') },
+        { label: 'NON-VEG', pick: pk('food', 'non-veg'), style: this.optStyle(st.food === 'non-veg') }
+      ],
+      isIn: st.att !== 'out',
+      errMsg: st.errMsg, errO: st.errMsg ? 1 : 0,
+      submitted: st.submitted, notSubmitted: !st.submitted,
+      waDirect: 'https://wa.me/' + num,
+      barY: (st.past && !st.showGate && !st.rsvpVis && !st.submitted) ? '0%' : '130%',
+      soundLabel: st.soundOn ? '\u2727 SOUND ON' : '\u2727 SOUND OFF',
+      onFallback: this.onFallback, onToggleSound: this.onToggleSound, onBarRsvp: this.onBarRsvp,
+      onSubmit: this.onSubmit, onEdit: this.onEdit, onScratchBtn: this.onScratchBtn,
+      bgRef: this.bgRef, railRef: this.railRef, mahayaRef: this.mahayaRef,
+      infRef: this.infRef, infPathRef: this.infPathRef, infFillRef: this.infFillRef,
+      infHeadRef: this.infHeadRef, infHintRef: this.infHintRef,
+      canvasRef: this.canvasRef, scratchWrapRef: this.scratchWrapRef,
+      nameRef: this.nameRef, noteRef: this.noteRef, barTRef: this.barTRef,
+      alignRef: this.alignRef, countRef: this.countRef, awaitsRef: this.awaitsRef,
+      rsvpRef: this.rsvpRef, sealRef: this.sealRef,
+      ddRef: this.ddRef, hhRef: this.hhRef, mmRef: this.mmRef, ssRef: this.ssRef
+    };
+  }
+}
+</script>
+</body>
+</html>

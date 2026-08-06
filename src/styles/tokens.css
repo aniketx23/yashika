@@ -1,0 +1,36 @@
+/* Design tokens — see README "Design Tokens".
+   --gold is *light coming through the portal*: accent, rules, never a large fill.
+   --flare is reserved for the RSVP button and the "can't make it" state. */
+:root {
+  --void: #0b0a1f; /* page base — deep cosmic indigo, NOT black */
+  --deep: #171339; /* raised surfaces (mostly used at .8–.93 alpha) */
+  --sirius: #edeaff; /* primary text on dark */
+  --sirius-dim: #9c97c4; /* secondary text, labels */
+  --gold: #f0b429; /* portal light */
+  --gold-deep: #b87914; /* gradient shadow end */
+  --flare: #ff3d71; /* RSVP only */
+  --flare-deep: #e02458;
+
+  --display: 'Bodoni Moda', serif;
+  --prose: Manrope, sans-serif;
+  --mono: 'Space Mono', monospace;
+
+  /* standard settle / portal-mechanical */
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-portal: cubic-bezier(0.87, 0, 0.13, 1);
+
+  --gutter: 22px;
+  --column: 560px;
+  --column-wide: 760px;
+
+  --r-pill: 999px;
+  --r-panel: 22px;
+  --r-card: 18px;
+  --r-control: 14px;
+  --r-field: 12px;
+
+  --glow-panel: 0 0 60px rgba(240, 180, 41, 0.18);
+  --glow-flare: 0 8px 34px rgba(255, 61, 113, 0.35);
+  --glow-flare-hover: 0 12px 44px rgba(255, 61, 113, 0.5);
+  --glow-flare-sticky: 0 6px 22px rgba(255, 61, 113, 0.4);
+}

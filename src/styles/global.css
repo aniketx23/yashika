@@ -1,0 +1,151 @@
+@import './tokens.css';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--void);
+  color: var(--sirius);
+  font-family: var(--prose);
+}
+
+/*
+ * Root only. The viewport takes its overflow from <html>, so this is enough to
+ * clip horizontally and kill overscroll bounce.
+ *
+ * Do NOT put these on <body> as well: `overflow-x: hidden` forces body's
+ * `overflow-y` to `auto`, making body its own scroll container with nothing to
+ * scroll — and `overscroll-behavior-y: none` then stops the wheel/touch from
+ * chaining up to the viewport. Scrolling dies except by dragging the scrollbar.
+ */
+html {
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: var(--gold);
+}
+a:hover {
+  color: var(--flare);
+}
+
+::selection {
+  background: rgba(240, 180, 41, 0.35);
+  color: var(--sirius);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+}
+
+/* Ambient loops. Everything else animates through `motion`. */
+@keyframes chev {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(7px);
+    opacity: 1;
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translate(-50%, -52%);
+  }
+  50% {
+    transform: translate(-50%, -48%);
+  }
+}
+@keyframes glowText {
+  0%,
+  100% {
+    text-shadow: 0 0 34px rgba(240, 180, 41, 0.35);
+  }
+  50% {
+    text-shadow: 0 0 62px rgba(240, 180, 41, 0.75);
+  }
+}
+@keyframes headPulse {
+  0%,
+  100% {
+    r: 8;
+    opacity: 0.9;
+  }
+  50% {
+    r: 12;
+    opacity: 1;
+  }
+}
+@keyframes ringDraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Ambient motion utilities.
+   These live here, not in CSS modules: a module localises every
+   `animation-name` it references, so a module can only reach keyframes it
+   declares itself. Keeping the whole ambient vocabulary in one global layer
+   beats scattering six copies of `@keyframes breathe` across components —
+   and the reduced-motion kill switch below already governs all of them. */
+.anim-breathe-4 {
+  animation: breathe 4s ease-in-out infinite;
+}
+.anim-breathe-4-late {
+  animation: breathe 4s ease-in-out 0.6s infinite;
+}
+.anim-breathe-5 {
+  animation: breathe 5s ease-in-out infinite;
+}
+.anim-breathe-7 {
+  animation: breathe 7s ease-in-out infinite;
+}
+.anim-chev {
+  animation: chev 2.2s ease-in-out infinite;
+}
+.anim-float {
+  animation: floatSlow 14s ease-in-out infinite;
+}
+.anim-glow {
+  animation: glowText 6s ease-in-out infinite;
+}
+.anim-head-pulse {
+  animation: headPulse 1.6s ease-in-out infinite;
+}
+.anim-draw-ring {
+  animation: ringDraw 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.anim-draw-tick {
+  animation: ringDraw 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+  }
+}

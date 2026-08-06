@@ -1,0 +1,41 @@
+/* Real text for assistive tech; the animated shards beside it are aria-hidden. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Shared type-animation primitives. */
+
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* Bodoni descenders sit below the line box; pad the mask so the clip edge
+     lands under them, then pull the extra height back out of the flow. */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.shard {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Mono readout that resolves character by character. Tabular-ish spacing keeps
+   the line from twitching while glyphs cycle. */
+.decode {
+  display: inline-block;
+  white-space: pre-wrap;
+}
+
+.litWord {
+  display: inline-block;
+  will-change: opacity;
+}

@@ -1,0 +1,5 @@
+/* Lifts the page above the fixed sky canvas. */
+.flow {
+  position: relative;
+  z-index: 1;
+}

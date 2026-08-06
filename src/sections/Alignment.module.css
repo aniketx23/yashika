@@ -49,12 +49,3 @@
   flex: 1;
   min-width: 0;
 }
-
-.obsLog {
-  margin: 26px 0 0;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.26em;
-  color: var(--sirius-dim);
-  opacity: 0.2;
-}

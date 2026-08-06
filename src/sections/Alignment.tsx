@@ -54,11 +54,6 @@ export default function Alignment({ sectionRef, revealed }: Props) {
             </motion.div>
           ))}
         </motion.dl>
-
-        {/* 20·10 and tokchi are personal references. Keep verbatim. */}
-        <p aria-hidden="true" className={styles.obsLog}>
-          OBS.LOG CAL.REF 20·10 — FILED BY TOKCHI
-        </p>
       </div>
     </section>
   );

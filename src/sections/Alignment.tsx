@@ -15,11 +15,18 @@ const COPY: readonly Segment[] = [
   { text: 'Yashika season.', strong: true },
 ];
 
-const ROWS: readonly (readonly [string, string])[] = [
-  ['DATE', 'Saturday, 08 August 2026'],
-  ['TIME', '8:08 PM onwards'],
-  ['PLACE', INVITE.venueText],
-  ['SKY', 'Sun in Leo · Sirius rising'],
+interface Row {
+  label: string;
+  value: string;
+  /** Second line, set smaller and dimmer than the value. */
+  meta?: string;
+}
+
+const ROWS: readonly Row[] = [
+  { label: 'DATE', value: 'Saturday, 08 August 2026' },
+  { label: 'TIME', value: '8:08 PM onwards' },
+  { label: 'PLACE', value: INVITE.venueName, meta: INVITE.venueAddress },
+  { label: 'SKY', value: 'Sun in Leo · Sirius rising' },
 ];
 
 interface Props {
@@ -47,10 +54,23 @@ export default function Alignment({ sectionRef, revealed }: Props) {
         </motion.div>
 
         <motion.dl className={styles.rows} variants={stagger(0.12)} initial="hidden" animate={state}>
-          {ROWS.map(([label, value]) => (
+          {ROWS.map(({ label, value, meta }) => (
             <motion.div key={label} className={styles.row} variants={rise} transition={settle(0.8)}>
               <dt className={styles.label}>{label}</dt>
-              <dd className={styles.value}>{value}</dd>
+              <dd className={styles.value}>
+                {value}
+                {meta && <span className={styles.meta}>{meta}</span>}
+                {label === 'PLACE' && INVITE.venueMapUrl && (
+                  <a
+                    href={INVITE.venueMapUrl}
+                    target="_blank"
+                    rel="noopener"
+                    className={styles.mapLink}
+                  >
+                    OPEN IN MAPS ↗
+                  </a>
+                )}
+              </dd>
             </motion.div>
           ))}
         </motion.dl>

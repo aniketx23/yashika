@@ -1,12 +1,8 @@
-/**
- * Everything the host may want to change without touching a component.
- *
- * `venueText` is deliberately provisional — the venue is not decided. It must
- * never be replaced with invented placeholder text that could ship by accident.
- */
+/** Everything the host may want to change without touching a component. */
 export const INVITE = {
-  venueText: 'Unlocks soon · watch WhatsApp',
-  venueMapUrl: '',
+  venueName: 'The Farms',
+  venueAddress: 'Mudimyal, Moinabad, Hyderabad, Telangana 501503',
+  venueMapUrl: 'https://maps.app.goo.gl/kq4XZuCdsyTXTVdi9?g_st=iw',
   whatsappNumber: '919837266622',
   whatsappDisplay: '+91 98372 66622',
   showAwaits: true,

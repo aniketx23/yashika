@@ -49,3 +49,25 @@
   flex: 1;
   min-width: 0;
 }
+
+/* Address sits under the venue name, quieter than it. */
+.meta {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--prose);
+  font-size: 12.5px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--sirius-dim);
+}
+
+.mapLink {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(240, 180, 41, 0.5);
+  padding-bottom: 2px;
+}

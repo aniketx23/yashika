@@ -89,7 +89,10 @@ export default function Countdown({ sectionRef, revealed }: Props) {
 
           <div className={styles.coords}>
             <p className={styles.stamp}>08.08.26 — 8:08 PM IST</p>
-            <p className={styles.venue}>{INVITE.venueText}</p>
+            <p className={styles.venue}>
+              {INVITE.venueName}
+              <span className={styles.venueAddress}>{INVITE.venueAddress}</span>
+            </p>
             {INVITE.venueMapUrl && (
               <a
                 href={INVITE.venueMapUrl}

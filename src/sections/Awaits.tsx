@@ -44,16 +44,23 @@ const NODES: readonly Node[] = [
   {
     eyebrow: '03 · GAMES',
     title: 'The games',
-    line: 'Antakshari, charades, and at least one bad decision.',
+    line: 'Bingo, charades, and at least one bad decision — bring your own games and your maddest ideas.',
     x: 34,
     m: 2.9,
   },
   {
-    eyebrow: '04 · PROOF',
+    eyebrow: '04 · POOL',
+    title: 'The pool',
+    line: 'Bring a spare set of clothes — this one ends up poolside.',
+    x: 14,
+    m: 2.2,
+  },
+  {
+    eyebrow: '05 · PROOF',
     title: 'The proof',
     line: 'A photo wall, a memory jar, and evidence you were here.',
-    x: 16,
-    m: 2.1,
+    x: 31,
+    m: 1.9,
   },
 ];
 

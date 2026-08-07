@@ -89,6 +89,15 @@
   color: var(--sirius);
 }
 
+.venueAddress {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--prose);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--sirius-dim);
+}
+
 .mapLink {
   display: inline-block;
   margin-top: 10px;

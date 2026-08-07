@@ -10,11 +10,20 @@
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230B0A1F'/><path d='M16,16 C11.96,11.21 6,11.42 6,16 C6,20.58 11.96,20.79 16,16 C20.04,11.21 26,11.42 26,16 C26,20.58 20.04,20.79 16,16' fill='none' stroke='%23F0B429' stroke-width='2.4' stroke-linecap='round'/></svg>"
     />
     <title>The Lion's Portal · 08.08.26</title>
+
+    <!-- Link previews. Static in the served HTML on purpose: scrapers do not
+         run JS, so anything injected client-side is invisible to them. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Lion's Portal" />
+    <meta property="og:url" content="https://lionsportal08.vercel.app/" />
     <meta property="og:title" content="You're summoned · 08.08.26" />
-    <meta
-      property="og:description"
-      content="The Lion's Portal opens for Yashika's 23rd. Draw the infinity."
-    />
+    <meta property="og:description" content="The Lion's Portal opens for Yashika's 23rd. Draw the infinity. 8:08 PM, The Farms, Hyderabad." />
+    <!-- Absolute https URL: relative paths are ignored by every major scraper. -->
+    <meta property="og:image" content="https://lionsportal08.vercel.app/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A glowing gold infinity symbol on a midnight starfield" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

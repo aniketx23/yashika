@@ -12,11 +12,9 @@ import shared from './section.module.css';
 import styles from './Summons.module.css';
 
 type Attendance = '' | 'in' | 'out';
-type Plate = '' | 'veg' | 'non-veg';
 
 const ERR_NAME = "Add your name so we know who's stepping through.";
 const ERR_ATT = 'Tell us — are you in?';
-const ERR_FOOD = 'Veg or non-veg — the biryani needs a count.';
 
 interface Props {
   sectionRef(el: HTMLElement | null): void;
@@ -47,22 +45,12 @@ function Option({ label, selected, accent, onSelect }: OptionProps) {
   );
 }
 
-function buildMessage(
-  name: string,
-  att: Attendance,
-  guests: number,
-  food: Plate,
-  note: string,
-): string {
+function buildMessage(name: string, att: Attendance, note: string): string {
   const lines = [
     "✦ RSVP · YASHIKA'S 23RD · THE LION'S PORTAL ✦",
     `Name: ${name}`,
     `Status: ${att === 'in' ? "I'M IN ✦" : "CAN'T MAKE IT"}`,
   ];
-  if (att === 'in') {
-    lines.push(`Bringing: ${guests === 0 ? 'just me' : `+${guests}`}`);
-    lines.push(`Plate: ${food.toUpperCase()}`);
-  }
   if (note) lines.push(`Note: ${note}`);
   return lines.join('\n');
 }
@@ -73,22 +61,17 @@ export default function Summons({ sectionRef, revealed, submitted, onSubmitted, 
   const [name, setName] = useState('');
   const [note, setNote] = useState('');
   const [att, setAtt] = useState<Attendance>('');
-  const [guests, setGuests] = useState(0);
-  const [food, setFood] = useState<Plate>('');
   const [error, setError] = useState('');
 
   const state = revealed ? 'shown' : 'hidden';
-  // The extra fields stay up until someone actively says they can't make it.
-  const isIn = att !== 'out';
 
   const submit = () => {
     const trimmedName = name.trim();
     const trimmedNote = note.trim();
     if (!trimmedName) return setError(ERR_NAME);
     if (!att) return setError(ERR_ATT);
-    if (att === 'in' && !food) return setError(ERR_FOOD);
 
-    const body = buildMessage(trimmedName, att, guests, food, trimmedNote);
+    const body = buildMessage(trimmedName, att, trimmedNote);
     window.open(waLink(INVITE.whatsappNumber, body), '_blank');
     sky.bloom(0.5, 0.5, 1800);
     setError('');
@@ -197,49 +180,6 @@ export default function Summons({ sectionRef, revealed, submitted, onSubmitted, 
                 }}
               />
             </div>
-
-            {isIn && (
-              <>
-                <p id={`${uid}-guests`} className={styles.label}>
-                  BRINGING ANYONE?
-                </p>
-                <div role="group" aria-labelledby={`${uid}-guests`} className={styles.options}>
-                  {[0, 1, 2].map((n) => (
-                    <Option
-                      key={n}
-                      label={n === 0 ? 'JUST ME' : `+${n}`}
-                      selected={guests === n}
-                      onSelect={() => {
-                        setGuests(n);
-                        setError('');
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <p id={`${uid}-plate`} className={styles.label}>
-                  YOUR PLATE
-                </p>
-                <div role="group" aria-labelledby={`${uid}-plate`} className={styles.options}>
-                  <Option
-                    label="VEG"
-                    selected={food === 'veg'}
-                    onSelect={() => {
-                      setFood('veg');
-                      setError('');
-                    }}
-                  />
-                  <Option
-                    label="NON-VEG"
-                    selected={food === 'non-veg'}
-                    onSelect={() => {
-                      setFood('non-veg');
-                      setError('');
-                    }}
-                  />
-                </div>
-              </>
-            )}
 
             <label htmlFor={`${uid}-note`} className={styles.label}>
               ANYTHING WE SHOULD KNOW? <span className={styles.optional}>(OPTIONAL)</span>

@@ -24,7 +24,7 @@ interface Row {
 
 const ROWS: readonly Row[] = [
   { label: 'DATE', value: 'Saturday, 08 August 2026' },
-  { label: 'TIME', value: '8:08 PM onwards' },
+  { label: 'TIME', value: '6:00 PM onwards', meta: 'The portal seals at 8:08 PM' },
   { label: 'PLACE', value: INVITE.venueName, meta: INVITE.venueAddress },
   { label: 'SKY', value: 'Sun in Leo · Sirius rising' },
 ];

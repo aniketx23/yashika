@@ -58,7 +58,7 @@ export default function Opening({ visible, parallaxRef }: Props) {
         </motion.div>
 
         <motion.p {...common} transition={settle(0.9, 1.4)} className={styles.when}>
-          SATURDAY · 08 AUGUST 2026 · 8:08 PM
+          SATURDAY · 08 AUGUST 2026 · FROM 6:00 PM
         </motion.p>
       </motion.div>
 

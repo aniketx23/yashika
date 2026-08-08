@@ -8,6 +8,7 @@ import Alignment from './sections/Alignment';
 import Awaits from './sections/Awaits';
 import Countdown from './sections/Countdown';
 import Opening from './sections/Opening';
+import Protocol from './sections/Protocol';
 import Seal from './sections/Seal';
 import Summons from './sections/Summons';
 import { INVITE } from './config';
@@ -90,6 +91,10 @@ export default function App() {
         {INVITE.showAwaits && (
           <Awaits sectionRef={director.register.awaits} revealed={director.revealed.awaits} />
         )}
+        <Protocol
+          sectionRef={director.register.protocol}
+          revealed={director.revealed.protocol}
+        />
         <Summons
           sectionRef={director.register.rsvp}
           revealed={director.revealed.rsvp}

@@ -78,7 +78,6 @@ export default function Summons({ sectionRef, revealed, submitted, onSubmitted, 
   const [error, setError] = useState('');
 
   const state = revealed ? 'shown' : 'hidden';
-  const direct = waLink(INVITE.whatsappNumber);
   // The extra fields stay up until someone actively says they can't make it.
   const isIn = att !== 'out';
 
@@ -142,10 +141,10 @@ export default function Summons({ sectionRef, revealed, submitted, onSubmitted, 
             <p className={styles.successTitle}>You&apos;re on the list.</p>
             <p className={`${styles.successNote} anim-breathe-4`}>SEE YOU ON THE OTHER SIDE ✦</p>
             <p className={styles.fallback}>
-              if WhatsApp didn&apos;t open, message us directly at
+              now come say hello to everyone else
               <br />
-              <a href={direct} target="_blank" rel="noopener">
-                {INVITE.whatsappDisplay}
+              <a href={INVITE.whatsappGroupUrl} target="_blank" rel="noopener">
+                Join the WhatsApp group ↗
               </a>
             </p>
             <button type="button" onClick={onEdit} className={styles.edit}>

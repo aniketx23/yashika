@@ -2,11 +2,18 @@ import type Lenis from 'lenis';
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { prefersReducedMotion } from '../lib/motion';
 
-export const STAGES = ['align', 'count', 'awaits', 'rsvp', 'seal'] as const;
+export const STAGES = ['align', 'count', 'awaits', 'protocol', 'rsvp', 'seal'] as const;
 export type Stage = (typeof STAGES)[number];
 export type Revealed = Record<Stage, boolean>;
 export type RegisterStage = Record<Stage, (el: HTMLElement | null) => void>;
-const NONE: Revealed = { align: false, count: false, awaits: false, rsvp: false, seal: false };
+const NONE: Revealed = {
+  align: false,
+  count: false,
+  awaits: false,
+  protocol: false,
+  rsvp: false,
+  seal: false,
+};
 
 /** A section is revealed once its top crosses 88% of the viewport. One-way. */
 const REVEAL_AT = 0.88;

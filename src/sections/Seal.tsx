@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import SplitReveal from '../components/SplitReveal';
 import { INVITE } from '../config';
 import { EASE_PORTAL, rise, settle } from '../lib/motion';
-import { waLink } from '../lib/whatsapp';
 import styles from './Seal.module.css';
 
 /** How long the seam stands open before the portal shuts. */
@@ -50,8 +49,8 @@ export default function Seal({ sectionRef, revealed }: Props) {
         <p className={styles.contact}>
           questions, coordinates, conspiracies —
           <br />
-          <a href={waLink(INVITE.whatsappNumber)} target="_blank" rel="noopener">
-            WhatsApp {INVITE.whatsappDisplay}
+          <a href={INVITE.whatsappGroupUrl} target="_blank" rel="noopener">
+            Join the WhatsApp group ↗
           </a>
         </p>
       </motion.div>
